@@ -9,12 +9,12 @@ interface GamesApi {
 
 type GameDto = {
   id: number;
-  cover: {
+  cover?: {
     image_id: number;
   };
   name: string;
-  summary: string;
-  url: string;
+  summary?: string;
+  url?: string;
 };
 
 export const gamesApi: GamesApi = {
@@ -32,9 +32,11 @@ export const gamesApi: GamesApi = {
 function transformGameDtoToModel(dto: GameDto): Game {
   return {
     id: dto.id,
-    cover: {
-      url: `https://images.igdb.com/igdb/image/upload/t_cover_big/${dto.cover.image_id}.jpeg`,
-    },
+    cover: dto.cover
+      ? {
+          url: `https://images.igdb.com/igdb/image/upload/t_cover_big/${dto.cover.image_id}.jpeg`,
+        }
+      : null,
     name: dto.name,
     summary: dto.summary,
     url: dto.url,
