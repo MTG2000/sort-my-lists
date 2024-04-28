@@ -1,0 +1,8 @@
+name = "worker-game-rater"
+main = "src/worker.js"
+compatibility_date = "2024-04-27"
+workers_dev = true
+
+kv_namespaces = [
+    { binding = "KV", id = "6166cf21f386431abea4c507b0e942b7" }
+]
