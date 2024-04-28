@@ -1,3 +1,4 @@
+import { useContext, useRef } from "react";
 import { Game } from "@/core/models";
 import { withProviders } from "@/lib/utils/hoc";
 import API from "@/services/api";
@@ -8,37 +9,39 @@ import {
   GameInsertPosition,
   GameInsertPositionProvider,
 } from "./game-insert-position-context";
-import { useContext } from "react";
+import { useGamesList } from "@/lib/contexts/GamesList.context";
+import useFocusWithin from "@/lib/hooks/useFocusWithin";
 
-interface Props {
-  onGameSelected: (
-    game: Game,
-    position: "first" | "figure-out" | "last"
-  ) => void;
-}
-
-function GameSearchInputBase({ onGameSelected }: Props) {
+function GameSearchInputBase() {
   const { position } = useContext(GameInsertPosition)!;
+  const { addGame } = useGamesList();
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const isFocusedWithin = useFocusWithin(ref);
 
   return (
-    <AsyncSelect
-      menuIsOpen
-      className="w-full"
-      cacheOptions={false}
-      defaultOptions
-      loadOptions={fetchOptions}
-      components={{
-        Option,
-        Menu,
-      }}
-      onChange={(v) => onGameSelected(v as Game, position)}
-      styles={{
-        menu: () => ({
-          backgroundColor: "#1e293b",
-          padding: 20,
-        }),
-      }}
-    />
+    <div ref={ref}>
+      <AsyncSelect
+        value={null}
+        className="w-full"
+        placeholder="Start typing to search for games..."
+        menuIsOpen={isFocusedWithin}
+        cacheOptions={true}
+        defaultOptions
+        loadOptions={fetchOptions}
+        components={{
+          Option,
+          Menu,
+        }}
+        onChange={(v) => addGame(v as Game, position)}
+        styles={{
+          menu: () => ({
+            backgroundColor: "#1e293b",
+            padding: 20,
+          }),
+        }}
+      />
+    </div>
   );
 }
 
@@ -51,6 +54,7 @@ async function fetchOptions(inputValue: string) {
     const data = await API.gamesApi.searchGames(inputValue);
     return data;
   } catch (error) {
+    console.log("ERRORED");
     console.log(error);
     return [];
   }
