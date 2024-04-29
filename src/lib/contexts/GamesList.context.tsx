@@ -16,6 +16,9 @@ interface GamesListContextValue {
     position: "first" | "last" | "figure-out"
   ) => Promise<void>;
   removeGame: (game: Game) => void;
+
+  // Reordering games
+  setNewGamesOrder: (newOrder: Game[]) => void;
   shiftGameOrder: (game: Game, upOrDown: "up" | "down") => void;
   shiftGameToNewIndex: (game: Game, newIndex: number) => void;
 
@@ -109,6 +112,13 @@ export const GamesListProvider: React.FC<{
     [setGames]
   );
 
+  const setNewGamesOrder = useCallback(
+    (newOrder: Game[]) => {
+      setGames(newOrder);
+    },
+    [setGames]
+  );
+
   const shiftGameOrder = useCallback(
     (game: Game, upOrDown: "up" | "down") => {
       const gameIndex = games.findIndex((g) => g.id === game.id);
@@ -165,6 +175,7 @@ export const GamesListProvider: React.FC<{
         games,
         addGame,
         removeGame,
+        setNewGamesOrder,
         shiftGameOrder,
         shiftGameToNewIndex,
         comparisonFlowOpen,
