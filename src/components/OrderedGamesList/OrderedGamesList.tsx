@@ -37,7 +37,7 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex gap-4 bg-gray-800 p-4 rounded-sm"
+      className="flex gap-4 bg-black bg-opacity-35 p-4 rounded-2xl"
     >
       <div className="flex flex-col justify-around">
         <div>
@@ -74,17 +74,17 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
           />
         </div>
       </div>
-      <div key={game.id} className="flex grow gap-2">
+      <div key={game.id} className="flex max-sm:flex-col grow gap-4">
         <img
           src={game.cover?.url}
           alt=""
           width={120}
-          className="object-cover"
+          className="object-cover mx-auto"
         />
-        <div>
-          <h3 className="font-bold text-lg">{game.name}</h3>
+        <div className="grow">
+          <h3 className="font-bold text-2xl">{game.name}</h3>
           {game.summary && (
-            <p className="line-clamp-2 max-w-[70ch]">{game.summary}</p>
+            <p className="line-clamp-2 max-w-[70ch] mt-3">{game.summary}</p>
           )}
         </div>
       </div>
