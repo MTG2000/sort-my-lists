@@ -1,13 +1,28 @@
 import { Game } from "@/core/models";
-import { ReactNode, createContext, useCallback, useContext } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import useLocalStorageState from "use-local-storage-state";
+import { createTreeFromArrayHelper } from "../data-structures/avl-tree";
 
 interface GamesListContextValue {
   games: Game[];
-  addGame: (game: Game, position: "first" | "last" | "figure-out") => void;
+  addGame: (
+    game: Game,
+    position: "first" | "last" | "figure-out"
+  ) => Promise<void>;
   removeGame: (game: Game) => void;
   shiftGameOrder: (game: Game, upOrDown: "up" | "down") => void;
   shiftGameToNewIndex: (game: Game, newIndex: number) => void;
+
+  // comparison flow
+  comparisonFlowOpen: boolean;
+  gamesToCompare: [Game, Game] | null;
+  userComparisonChoiceHandler: ((result: -1 | 1) => void) | null;
 }
 
 const GamesListContext = createContext<GamesListContextValue | undefined>(
@@ -22,8 +37,56 @@ export const GamesListProvider: React.FC<{
     defaultValue: [],
   });
 
+  const [comparisonFlowOpen, setComparisonFlowOpen] = useState(false);
+  const [gamesToCompare, setGamesToCompare] = useState<[Game, Game] | null>(
+    null
+  );
+  const [userComparisonChoiceHandler, setUserComparisonChoiceHandler] =
+    useState<((result: -1 | 1) => void) | null>(null);
+
   const addGame = useCallback(
-    (game: Game, position: "first" | "last" | "figure-out") => {
+    async (game: Game, position: "first" | "last" | "figure-out") => {
+      if (position === "figure-out") {
+        // create avl tree from games
+
+        const tree = await createTreeFromArrayHelper(
+          games,
+          async (a, b) =>
+            games.findIndex((g) => g.id === a.id) -
+            games.findIndex((g) => g.id === b.id)
+        );
+
+        // update the compareFn to use the function
+        tree.compareFn = async (a, b) => {
+          // ask the user which game he likes more, a or b
+          setGamesToCompare([a, b]);
+          // wait for the user to choose
+          const userChoice = await new Promise<-1 | 1>((resolve) => {
+            setUserComparisonChoiceHandler(() => {
+              return resolve;
+            });
+          });
+
+          return userChoice;
+        };
+
+        // start the compare games flow (open modal)
+        setComparisonFlowOpen(true);
+        // ...
+
+        // insert the new game into the tree
+        await tree.insert(game);
+
+        // inOrderTraversal to get the new order of games
+        const newOrder = tree.inOrderTraversal();
+        setComparisonFlowOpen(false);
+        setGamesToCompare(null);
+        setUserComparisonChoiceHandler(null);
+
+        // update the games state with the new order
+        return setGames(newOrder);
+      }
+
       setGames((prevGames) => {
         if (prevGames.find((g) => g.id === game.id)) return prevGames;
 
@@ -36,7 +99,7 @@ export const GamesListProvider: React.FC<{
         }
       });
     },
-    [setGames]
+    [games, setGames]
   );
 
   const removeGame = useCallback(
@@ -104,6 +167,9 @@ export const GamesListProvider: React.FC<{
         removeGame,
         shiftGameOrder,
         shiftGameToNewIndex,
+        comparisonFlowOpen,
+        gamesToCompare,
+        userComparisonChoiceHandler,
       }}
     >
       {children}

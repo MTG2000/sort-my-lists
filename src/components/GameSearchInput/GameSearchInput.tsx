@@ -36,8 +36,12 @@ function GameSearchInputBase() {
         onChange={(v) => addGame(v as Game, position)}
         styles={{
           menu: () => ({
-            backgroundColor: "#1e293b",
+            backgroundColor: "black",
+            position: "absolute",
+            marginTop: 12,
             padding: 20,
+            borderRadius: 16,
+            width: "100%",
           }),
         }}
       />
