@@ -1,5 +1,4 @@
-#root {
-  max-width: 1280px;
+.page-container {
+  max-width: min(100% - 4rem, 1280px);
   margin: 0 auto;
-  padding: 2rem;
 }
