@@ -90,7 +90,7 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
       </div>
       <div>
         <button onClick={() => removeGame(game)} aria-label="remove game">
-          ❌
+          ✖️
         </button>
       </div>
     </Reorder.Item>

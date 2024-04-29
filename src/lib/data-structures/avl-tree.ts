@@ -357,6 +357,10 @@ class AVLTree<T> {
     // Return the final temp array
     return temp;
   }
+
+  getTreeHeight() {
+    return this.root ? this.root.height : 0;
+  }
 }
 
 export default AVLTree;

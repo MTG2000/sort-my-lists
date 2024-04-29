@@ -8,6 +8,7 @@ import {
 } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import { createTreeFromArrayHelper } from "../data-structures/avl-tree";
+import { useToast } from "../hooks/useToast";
 
 interface GamesListContextValue {
   games: Game[];
@@ -24,6 +25,7 @@ interface GamesListContextValue {
 
   // comparison flow
   comparisonFlowOpen: boolean;
+  maxGamesToCompare: number;
   gamesToCompare: [Game, Game] | null;
   userComparisonChoiceHandler: ((result: -1 | 1) => void) | null;
 }
@@ -39,8 +41,10 @@ export const GamesListProvider: React.FC<{
   const [games, setGames] = useLocalStorageState<Game[]>(`games-${listKey}`, {
     defaultValue: [],
   });
+  const toast = useToast();
 
   const [comparisonFlowOpen, setComparisonFlowOpen] = useState(false);
+  const [maxGamesToCompare, setMaxGamesToCompare] = useState(0);
   const [gamesToCompare, setGamesToCompare] = useState<[Game, Game] | null>(
     null
   );
@@ -73,6 +77,8 @@ export const GamesListProvider: React.FC<{
           return userChoice;
         };
 
+        setMaxGamesToCompare(tree.getTreeHeight());
+
         // start the compare games flow (open modal)
         setComparisonFlowOpen(true);
         // ...
@@ -82,9 +88,15 @@ export const GamesListProvider: React.FC<{
 
         // inOrderTraversal to get the new order of games
         const newOrder = tree.inOrderTraversal();
-        setComparisonFlowOpen(false);
+
+        // clean up
+        setTimeout(() => {
+          setComparisonFlowOpen(false);
+        }, 1000);
         setGamesToCompare(null);
         setUserComparisonChoiceHandler(null);
+
+        toast("✅ Game added successfully!");
 
         // update the games state with the new order
         return setGames(newOrder);
@@ -179,6 +191,7 @@ export const GamesListProvider: React.FC<{
         shiftGameOrder,
         shiftGameToNewIndex,
         comparisonFlowOpen,
+        maxGamesToCompare,
         gamesToCompare,
         userComparisonChoiceHandler,
       }}
