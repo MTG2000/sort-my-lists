@@ -1,8 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import HomePage from "@/pages/HomePage/HomePage";
-import AllListsPage from "@/pages/AllListsPage/AllListsPage";
-import ListPage from "@/pages/ListPage/ListPage";
+import { lazy } from "react";
+
+const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
+const AllListsPage = lazy(() => import("@/pages/AllListsPage/AllListsPage"));
+const ListPage = lazy(() => import("@/pages/ListPage/ListPage"));
+
 export const router = createBrowserRouter([
   {
     element: <App />,
@@ -26,10 +29,3 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
-
-/**
- *  / => home page
- *  /lists | /list => All lists
- *  /list/:slug => List page
- *
- */
