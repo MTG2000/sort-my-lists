@@ -11,6 +11,7 @@ import {
 } from "./game-insert-position-context";
 import { useGamesList } from "@/lib/contexts/GamesList.context";
 import useFocusWithin from "@/lib/hooks/useFocusWithin";
+import debounce from "debounce";
 
 function GameSearchInputBase() {
   const { position } = useContext(GameInsertPosition)!;
@@ -53,16 +54,27 @@ export const GameSearchInput = withProviders(GameInsertPositionProvider)(
   GameSearchInputBase
 );
 
-async function fetchOptions(inputValue: string) {
-  try {
-    const data = await API.gamesApi.searchGames(inputValue);
-    return data;
-  } catch (error) {
-    console.log("ERRORED");
-    console.log(error);
-    return [];
-  }
-}
+const fetchOptions = debounce(
+  (inputValue: string, callback: (result: Game[]) => void) => {
+    // try {
+    //   const data = await API.gamesApi.searchGames(inputValue);
+    //   return data;
+    // } catch (error) {
+    //   console.log("ERRORED");
+    //   console.log(error);
+    //   return [];
+    // }
+    API.gamesApi
+      .searchGames(inputValue)
+      .then(callback)
+      .catch((error) => {
+        console.log("Error in fetching from API");
+        console.log(error);
+        callback([]);
+      });
+  },
+  300
+);
 
 const Menu = (props: MenuProps<Game>) => {
   const { position, onUpdateInsertPosition } = useContext(GameInsertPosition)!;
@@ -129,7 +141,9 @@ const Option = (props: OptionProps<Game>) => {
         />
         <div>
           <h3 className="font-bold text-lg">{props.data.name}</h3>
-          {props.data.summary && <p>{props.data.summary.slice(0, 50)}</p>}
+          {props.data.summary && (
+            <p className="line-clamp-1 max-w-[70ch]">{props.data.summary}</p>
+          )}
         </div>
       </div>
     </components.Option>

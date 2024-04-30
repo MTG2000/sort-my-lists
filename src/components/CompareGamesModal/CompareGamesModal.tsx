@@ -122,7 +122,7 @@ export function CompareGamesModal() {
               Choose the game you prefer more
             </h2>
 
-            <div className="w-full max-w-[60%] mx-auto h-4 relative rounded-lg bg-gray-900 overflow-hidden">
+            <div className="w-full max-w-[min(60%,240px)] mx-auto h-2 relative rounded-lg bg-gray-900 overflow-hidden">
               <motion.div
                 className="absolute inset-0 bg-blue-700 rounded-xl"
                 initial={{

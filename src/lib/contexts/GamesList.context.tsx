@@ -53,6 +53,11 @@ export const GamesListProvider: React.FC<{
 
   const addGame = useCallback(
     async (game: Game, position: "first" | "last" | "figure-out") => {
+      if (games.some((g) => g.id === game.id)) {
+        toast("🚨 Game already added!");
+        return;
+      }
+
       if (position === "figure-out") {
         // create avl tree from games
 
@@ -103,8 +108,6 @@ export const GamesListProvider: React.FC<{
       }
 
       setGames((prevGames) => {
-        if (prevGames.find((g) => g.id === game.id)) return prevGames;
-
         if (position === "first") {
           return [game, ...prevGames];
         } else if (position === "last") {
