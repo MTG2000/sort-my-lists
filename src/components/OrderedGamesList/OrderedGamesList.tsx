@@ -37,7 +37,7 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex gap-4 bg-black bg-opacity-35 p-4 rounded-2xl"
+      className="flex gap-4 glass-card p-4 rounded-2xl"
     >
       <div className="flex flex-col justify-around">
         <div>
@@ -89,8 +89,33 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
         </div>
       </div>
       <div>
-        <button onClick={() => removeGame(game)} aria-label="remove game">
-          ✖️
+        <button
+          onClick={() => removeGame(game)}
+          className="text-gray-500 p-3 rounded-full hover:text-gray-100"
+          aria-label="remove game"
+        >
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="-0.5 0 25 25"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 21.32L21 3.32001"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M3 3.32001L21 21.32"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       </div>
     </Reorder.Item>

@@ -33,7 +33,7 @@ export default function ListPage() {
   };
 
   return (
-    <div>
+    <div key={list.id}>
       <GamesListProvider listKey={list.id}>
         <div className="page-container py-8">
           <div className="space-y-4">

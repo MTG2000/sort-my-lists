@@ -1,11 +1,40 @@
-import { Game } from "@/core/models";
-import { useGamesList } from "@/lib/contexts/GamesList.context";
 import { useRef } from "react";
+import { Button } from "../Button/Button";
+import { useRecoverData } from "@/lib/hooks/useRecoverData";
+import { useToast } from "@/lib/hooks/useToast";
+import { extractErrorMessage } from "@/lib/utils/helperFunctions";
+import { useNavigate } from "@/lib/hooks/useNavigate";
 
-export default function ImportDataButton() {
+interface Props {
+  onCompleted?: () => void;
+}
+
+export default function ImportDataButton({ onCompleted }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null!);
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  const { setNewGamesOrder } = useGamesList();
+  const { recoverDataFromFile } = useRecoverData();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files?.[0];
+    if (!file) return toast("No file selected", { type: "error" });
+
+    const userConfirmation = window.confirm(
+      "Are you sure you want to import this data? If there is any list that is also in the backup file, it will be overwritten by the backup data."
+    );
+    if (!userConfirmation) return;
+
+    try {
+      await recoverDataFromFile(file);
+      toast("✅ Data imported successfully!");
+      fileInputRef.current.value = "";
+      navigate({ type: "homepage" });
+      onCompleted?.();
+    } catch (error) {
+      toast(extractErrorMessage(error), { type: "error" });
+    }
+  };
 
   return (
     <div>
@@ -15,51 +44,38 @@ export default function ImportDataButton() {
         multiple={false}
         accept=".json"
         className="hidden"
-        onChange={(e) => {
-          const file = e.target?.files?.[0];
-          if (!file) return;
-
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const content = e.target?.result;
-            if (!content) return;
-            const data = JSON.parse(content as string);
-
-            if (!data || !data.data || !Array.isArray(data.data)) {
-              alert("Sorry, the file you uploaded is not valid.");
-              return;
-            }
-
-            const userAgreed = window.confirm(
-              "Are you sure you want to import this data? This will overwrite your current data."
-            );
-            if (!userAgreed) return;
-
-            setNewGamesOrder(data.data as Game[]);
-
-            fileInputRef.current.value = "";
-          };
-
-          reader.onerror = (e) => {
-            console.error(
-              "File could not be read! Code " + e.target?.error?.code
-            );
-            alert(
-              "Sorry, there was an error reading the file. Please try again."
-            );
-          };
-
-          reader.readAsText(file);
-        }}
+        onChange={handleFileChange}
       />
-      <button
-        className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+      <Button
+        variant="whiteOutlined"
+        fullWidth
         onClick={() => {
           fileInputRef.current.click();
         }}
       >
+        <svg
+          width="20px"
+          height="20px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <path
+            d="M12 4L12 14M12 14L15 11M12 14L9 11"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>{" "}
         Import Data From Backup File
-      </button>
+      </Button>
     </div>
   );
 }

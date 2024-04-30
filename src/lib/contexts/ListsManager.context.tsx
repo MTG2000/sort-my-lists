@@ -5,12 +5,12 @@ import { generateRandomId, toSlug } from "../utils/helperFunctions";
 
 interface ListsManagerContextValue {
   lists: List[];
-  createNewList: (name?: string) => List;
+  createNewList: (name?: string, overrides?: { id: string }) => List;
   deleteList: (listId: List["id"]) => void;
   updateList: (listId: List["id"], updatedData: UpdateListData) => List;
 }
 
-type UpdateListData = Partial<Pick<List, "name">>;
+type UpdateListData = Partial<Pick<List, "id" | "name">>;
 
 const ListsManagerContext = createContext<ListsManagerContextValue | undefined>(
   undefined
@@ -24,8 +24,8 @@ export const ListsManagerProvider: React.FC<{
   });
 
   const createNewList = useCallback(
-    (name?: string) => {
-      const id = generateRandomId();
+    (name?: string, overrides?: { id: string }) => {
+      const id = overrides?.id ?? generateRandomId();
       const newList: List = {
         id,
         name: name ?? "Untitled List",

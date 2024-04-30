@@ -2,3 +2,12 @@
   max-width: min(100% - 4rem, 960px);
   margin: 0 auto;
 }
+
+.glass-card {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(72, 70, 70, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(28, 43, 58, 0.12);
+}

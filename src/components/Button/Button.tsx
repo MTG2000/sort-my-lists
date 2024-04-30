@@ -82,7 +82,7 @@ export const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(
     return (
       <Link
         className={cn(
-          "h-10 shadow-sm whitespace-nowrap rounded-lg px-8 py-4 disabled:cursor-not-allowed text-white font-semibold",
+          "shadow-sm whitespace-nowrap rounded-lg px-8 py-4 disabled:cursor-not-allowed text-white font-semibold",
           buttonVariants[variant],
           buttonVariantsDisabled[variant],
           fullWidth ? "w-full" : "",

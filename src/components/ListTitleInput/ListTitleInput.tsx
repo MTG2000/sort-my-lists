@@ -13,27 +13,29 @@ export default function ListTitleInput({ value, onUpdate }: Props) {
 
   return (
     <div>
-      <input
-        ref={inputRef}
-        type="text"
-        className={cn(
-          "text-4xl font-bold w-full bg-transparent hover:bg-gray-900 hover:ring focus:ring-0 focus:bg-gray-900 p-3",
+      <div className="flex gap-2">
+        <input
+          ref={inputRef}
+          type="text"
+          className={cn(
+            "text-4xl font-bold w-full bg-transparent hover:bg-gray-900 hover:ring focus:ring-0 focus:bg-gray-900 p-3",
 
-          !changesSaved && "bg-gray-400"
-        )}
-        value={title}
-        onChange={(e) => {
-          setChangesSaved(false);
-          setTitle(e.target.value);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            onUpdate(title);
-            setChangesSaved(true);
-            inputRef.current.blur();
-          }
-        }}
-      />
+            !changesSaved && "bg-gray-400"
+          )}
+          value={title}
+          onChange={(e) => {
+            setChangesSaved(false);
+            setTitle(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onUpdate(title);
+              setChangesSaved(true);
+              inputRef.current.blur();
+            }
+          }}
+        />
+      </div>
       {!changesSaved && (
         <p className="animate-bounce mt-3">
           Press <span className="font-bold">Enter</span> to save changes

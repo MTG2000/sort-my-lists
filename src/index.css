@@ -18,7 +18,14 @@
 }
 
 body {
-  background-color: #262933;
+  /* background-color: #262933; */
+  background: linear-gradient(
+    109.6deg,
+    rgb(36, 45, 57) 11.2%,
+    rgb(16, 37, 60) 51.2%,
+    rgb(26 29 41) 98.6%
+  );
+
   margin: 0;
   min-height: 100vh;
 }
