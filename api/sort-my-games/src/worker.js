@@ -39,7 +39,7 @@ export default {
 			response = new Response(response.body, response);
 			// Set CORS headers
 
-			const allowedOrigins = ['https://top-games-rater.com', 'http://localhost:5173'];
+			const allowedOrigins = ['https://sort-my-games.pages.dev', 'http://localhost:5173'];
 
 			response.headers.set('Access-Control-Allow-Origin', allowedOrigins.includes(originHeader) ? originHeader : '');
 
