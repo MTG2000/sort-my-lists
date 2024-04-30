@@ -112,7 +112,7 @@ export function CompareGamesModal() {
                 className="clr-i-outline clr-i-outline-path-2"
                 d="M28,12.1a1,1,0,0,0-1.41,0L15.49,23.15l-6-6A1,1,0,0,0,8,18.53L15.49,26,28,13.52A1,1,0,0,0,28,12.1Z"
               ></path>
-              <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
+              <rect x="0" y="0" width="36" height="36" fillOpacity="0" />
             </svg>
           </div>
         )}

@@ -12,9 +12,11 @@
   "dependencies": {
     "debounce": "^2.0.0",
     "framer-motion": "^11.1.7",
+    "nanoid": "^5.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
+    "react-router-dom": "^6.23.0",
     "react-select": "^5.8.0",
     "react-simple-toasts": "^5.10.0",
     "use-local-storage-state": "^19.2.0"
