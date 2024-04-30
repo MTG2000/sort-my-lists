@@ -1,4 +1,4 @@
 .page-container {
-  max-width: min(100% - 4rem, 1280px);
+  max-width: min(100% - 4rem, 960px);
   margin: 0 auto;
 }

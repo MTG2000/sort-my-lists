@@ -1,14 +1,13 @@
 import { ReactNode, createContext, useCallback, useContext } from "react";
 import useLocalStorageState from "use-local-storage-state";
-import { useToast } from "../hooks/useToast";
 import { List } from "@/core/models/list";
 import { generateRandomId, toSlug } from "../utils/helperFunctions";
 
 interface ListsManagerContextValue {
   lists: List[];
-  createNewList: (name?: string) => void;
+  createNewList: (name?: string) => List;
   deleteList: (listId: List["id"]) => void;
-  updateList: (listId: List["id"], updatedData: UpdateListData) => void;
+  updateList: (listId: List["id"], updatedData: UpdateListData) => List;
 }
 
 type UpdateListData = Partial<Pick<List, "name">>;
@@ -20,8 +19,6 @@ const ListsManagerContext = createContext<ListsManagerContextValue | undefined>(
 export const ListsManagerProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const toast = useToast();
-
   const [lists, setLists] = useLocalStorageState<List[]>("lists", {
     defaultValue: [],
   });
@@ -37,6 +34,7 @@ export const ListsManagerProvider: React.FC<{
         slug: name ? toSlug(name) : id,
       };
       setLists((prevLists) => [...prevLists, newList]);
+      return newList;
     },
     [setLists]
   );
@@ -60,28 +58,25 @@ export const ListsManagerProvider: React.FC<{
         const slugExists = lists.some(
           (list) => list.slug === newSlug && list.id !== listId
         );
-        if (slugExists) {
-          toast("❌ List name already exists");
-          return;
-        }
+        if (slugExists) throw new Error("❌ List name already exists");
 
         slug = newSlug;
       }
 
+      const updatedList: List = {
+        ...listToUpdate,
+        ...updatedData,
+        slug,
+        updatedAt: new Date().toISOString(),
+      };
+
       setLists((prevLists) =>
-        prevLists.map((list) =>
-          list.id === listId
-            ? {
-                ...list,
-                ...updatedData,
-                slug,
-                updatedAt: new Date().toISOString(),
-              }
-            : list
-        )
+        prevLists.map((list) => (list.id === listId ? updatedList : list))
       );
+
+      return updatedList;
     },
-    [lists, setLists, toast]
+    [lists, setLists]
   );
 
   return (

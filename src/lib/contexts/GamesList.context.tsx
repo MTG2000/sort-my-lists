@@ -38,7 +38,7 @@ export const GamesListProvider: React.FC<{
   children: ReactNode;
   listKey?: string;
 }> = ({ children, listKey = "default" }) => {
-  const [games, setGames] = useLocalStorageState<Game[]>(`games-${listKey}`, {
+  const [games, setGames] = useLocalStorageState<Game[]>(`List-${listKey}`, {
     defaultValue: [],
   });
   const toast = useToast();
