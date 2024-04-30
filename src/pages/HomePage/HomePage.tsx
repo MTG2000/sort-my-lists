@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button/Button";
 import FAQ from "@/components/FAQ/FAQ";
+import HeroTitle from "@/components/HeroTitle/HeroTitle";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 
@@ -21,7 +22,7 @@ export default function HomePage() {
         id="hero"
         className="min-h-[min(90vh,900px)] flex flex-col gap-16 justify-center pt-[min(30vh,300px)]"
       >
-        <h1 className="text-9xl">SortMyGames</h1>
+        <HeroTitle />
         <p className="text-2xl max-w-[60ch] leading-9">
           Disorganized games backlog? <br />
           Confused where to add the new one to your growing list? <br />
