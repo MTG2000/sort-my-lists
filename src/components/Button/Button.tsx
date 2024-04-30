@@ -6,6 +6,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof buttonVariants;
   fullWidth?: boolean;
   isLoading?: boolean;
+  size?: "md" | "lg";
 };
 
 export type LinkButtonProps = LinkProps & {
@@ -48,6 +49,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading,
       fullWidth,
       variant = "white",
+      size = "md",
       children,
       disabled,
       ...props
@@ -57,7 +59,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          "h-10 shadow-sm whitespace-nowrap rounded-lg px-8 py-4 disabled:pointer-events-none text-white font-semibold active:scale-95 flex justify-center items-center gap-2",
+          "min-h-10 shadow-sm whitespace-nowrap rounded-lg disabled:pointer-events-none text-white font-semibold active:scale-95 flex justify-center items-center gap-2",
+          size === "md" && "px-6 py-4 text-md",
+          size === "lg" && "px-9 py-5 text-lg",
           buttonVariants[variant],
           buttonVariantsDisabled[variant],
           fullWidth ? "w-full" : "",

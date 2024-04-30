@@ -37,6 +37,10 @@ export default function AppDrawer() {
     }
   };
 
+  const closeMenu = () => {
+    setMenuIsOpen(false);
+  };
+
   const closeMenuIfFullScreen = () => {
     if (drawerFillFullScreen) {
       setMenuIsOpen(false);
@@ -46,9 +50,9 @@ export default function AppDrawer() {
   return (
     <>
       <div className="py-16 xl:p-0"></div>
-      <aside className="fixed inset-y-0 left-0 w-full md:w-[400px] z-10 isolate pointer-events-none">
+      <aside className="fixed inset-y-0 left-0 w-full md:w-[400px] z-20 isolate pointer-events-none">
         <button
-          className="rounded-full bg-black bg-opacity-70 w-20 aspect-square absolute top-6 left-6 z-10 font-medium text-white flex flex-col justify-center items-center pointer-events-auto"
+          className="rounded-full bg-black bg-opacity-70 w-20 aspect-square absolute top-6 left-6 z-20 font-medium text-white flex flex-col justify-center items-center pointer-events-auto"
           onClick={() => {
             setMenuIsOpen((v) => !v);
           }}
@@ -138,20 +142,20 @@ export default function AppDrawer() {
         >
           <Link
             to={createRoute({ type: "homepage" })}
-            onClick={closeMenuIfFullScreen}
-            className="text-3xl font-bold"
+            onClick={closeMenu}
+            className="text-5xl font-bold hover:scale-105 transition-transform"
           >
-            Smart-ass Games Rater
+            SortMyGames
           </Link>
 
           <div>
             <p className="text-xl font-bold">All Lists:</p>
-            <ul className="ps-4 pt-4 space-y-3">
+            <ul className="pt-4 space-y-3">
               {lists.map((list) => (
                 <li key={list.id} className="flex gap-2">
                   <LinkButton
                     to={createRoute({ type: "list", slug: list.slug })}
-                    onClick={closeMenuIfFullScreen}
+                    onClick={closeMenu}
                     variant="whiteOutlined"
                     className="overflow-clip text-ellipsis block py-2 grow"
                   >

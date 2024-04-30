@@ -58,6 +58,10 @@ export const GamesListProvider: React.FC<{
         return;
       }
 
+      if (games.length === 0) {
+        return setGames([game]);
+      }
+
       if (position === "figure-out") {
         // create avl tree from games
 

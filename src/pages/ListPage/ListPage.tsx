@@ -26,7 +26,7 @@ export default function ListPage() {
   const handleUpdateListName = (name: string) => {
     try {
       const updatedList = updateList(list.id, { name });
-      navigate({ type: "list", slug: updatedList.slug });
+      navigate({ type: "list", slug: updatedList.slug }, { replace: true });
     } catch (error) {
       toast(extractErrorMessage(error), { type: "error" });
     }

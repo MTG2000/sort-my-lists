@@ -39,6 +39,7 @@ function GameSearchInputBase() {
           menu: () => ({
             backgroundColor: "black",
             position: "absolute",
+            zIndex: 10,
             marginTop: 12,
             padding: 20,
             borderRadius: 16,

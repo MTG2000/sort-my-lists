@@ -12,7 +12,9 @@ export default function OrderedGamesList() {
   return (
     <Reorder.Group
       values={games}
+      axis="y"
       onReorder={onReorder}
+      layoutScroll
       className="flex flex-col gap-3"
     >
       <AnimatePresence>
@@ -42,7 +44,7 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
       <div className="flex flex-col justify-around">
         <div>
           <button
-            className="block mx-auto active:scale-90 cursor-grab active:cursor-grabbing"
+            className="block mx-auto hover:scale-110 active:scale-90 cursor-grab active:cursor-grabbing touch-none"
             aria-label="Drag to move game"
             onPointerDown={(e) => dragControls.start(e)}
           >
