@@ -28,3 +28,14 @@ body {
   margin: 0;
   min-height: 100vh;
 }
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: theme(colors.gray.800);
+}
+
+::selection {
+  color: white;
+  background: theme(colors.gray.800);
+}
