@@ -18,11 +18,12 @@ export default function ListTitleInput({ value, onUpdate }: Props) {
           ref={inputRef}
           type="text"
           className={cn(
-            "text-4xl font-bold w-full bg-transparent hover:bg-gray-900 hover:ring focus:ring-0 focus:bg-gray-900 p-3",
+            "text-4xl font-bold w-full bg-transparent hover:bg-gray-900 hover:ring focus:ring-0 focus:bg-gray-900 p-3 text-ellipsis overflow-clip",
 
             !changesSaved && "bg-gray-400"
           )}
           value={title}
+          title="Click to edit list title"
           onChange={(e) => {
             setChangesSaved(false);
             setTitle(e.target.value);

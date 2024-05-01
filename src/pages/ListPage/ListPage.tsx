@@ -2,6 +2,7 @@ import { CompareGamesModal } from "@/components/CompareGamesModal/CompareGamesMo
 import { GameSearchInput } from "@/components/GameSearchInput/GameSearchInput";
 import ListTitleInput from "@/components/ListTitleInput/ListTitleInput";
 import OrderedGamesList from "@/components/OrderedGamesList/OrderedGamesList";
+import ShareListButton from "@/components/ShareListButton/ShareListButton";
 import { GamesListProvider } from "@/lib/contexts/GamesList.context";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
@@ -40,7 +41,15 @@ export default function ListPage() {
       <GamesListProvider listKey={list.id}>
         <div className="page-container py-8">
           <div className="space-y-4">
-            <ListTitleInput value={list.name} onUpdate={handleUpdateListName} />
+            <div className="flex flex-wrap items-center justify-end">
+              <div className="grow">
+                <ListTitleInput
+                  value={list.name}
+                  onUpdate={handleUpdateListName}
+                />
+              </div>
+              <ShareListButton listTitle={list.name} />
+            </div>
             <GameSearchInput />
             <OrderedGamesList />
           </div>

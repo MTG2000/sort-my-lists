@@ -5,6 +5,7 @@ const API_URL = CONSTS.WORKER_API_URL;
 
 interface GamesApi {
   searchGames(query: string): Promise<Game[]>;
+  getGamesByIds(ids: number[]): Promise<Game[]>;
 }
 
 type GameDto = {
@@ -23,6 +24,18 @@ export const gamesApi: GamesApi = {
       method: "POST",
       body: `fields name, summary, url, cover.*;
             search "${query}";`,
+    });
+    const data = await response.json();
+    return data.map(transformGameDtoToModel);
+  },
+
+  getGamesByIds: async (ids: number[]) => {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: `fields name, summary, url, cover.*;
+            where id = (${ids.join(",")});
+            limit ${ids.length};
+            `,
     });
     const data = await response.json();
     return data.map(transformGameDtoToModel);

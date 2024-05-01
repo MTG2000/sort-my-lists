@@ -165,6 +165,7 @@ export default function AppDrawer() {
                     onClick={() => handleDeleteList(list.id)}
                     className="rounded-full bg-gray-500 bg-opacity-0 hover:bg-opacity-30 w-10 aspect-square font-medium text-white flex flex-col justify-center items-center"
                     aria-label="delete list"
+                    title="Delete List"
                   >
                     <svg
                       width="20px"

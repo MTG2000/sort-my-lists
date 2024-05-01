@@ -1,3 +1,6 @@
+import { createRoute } from "@/router/create-route";
+import { Navigate } from "react-router-dom";
+
 export default function AllListsPage() {
-  return <div>AllListsPage</div>;
+  return <Navigate to={createRoute({ type: "homepage" })} />;
 }

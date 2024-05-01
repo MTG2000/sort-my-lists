@@ -134,9 +134,9 @@ const faqs = [
     ),
   },
   {
-    question: "Can I share my game list with my friends?",
+    question: "Why is the sharing url so long and ugly?!",
     answer:
-      "Not at the moment. Since we store data locally, sharing isn't possible. But hey, never say never! We might add it in the future if I have some time.",
+      "Since we don't store any data on our servers, the URL must contain all the necessary data needed to recreate your list on someone else's device. However, if you really want to have a shorter URL, you can use a URL shortening service like bit.ly or TinyURL.",
   },
   {
     question: "How can I provide feedback or report issues?",
