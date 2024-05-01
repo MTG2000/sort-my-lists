@@ -1,5 +1,4 @@
 import { Game } from "@/core/models";
-import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { useDocumentTitle } from "usehooks-ts";
 
