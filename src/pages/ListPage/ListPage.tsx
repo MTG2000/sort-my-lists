@@ -8,6 +8,7 @@ import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useToast } from "@/lib/hooks/useToast";
 import { extractErrorMessage } from "@/lib/utils/helperFunctions";
 import { useParams } from "react-router-dom";
+import { useDocumentTitle } from "usehooks-ts";
 
 export default function ListPage() {
   const params = useParams<{ slug: string }>();
@@ -22,6 +23,8 @@ export default function ListPage() {
   const list = lists.find((list) => list.slug === listSlug);
 
   if (!list) throw new Error("List not found");
+
+  useDocumentTitle(list.name);
 
   const handleUpdateListName = (name: string) => {
     try {

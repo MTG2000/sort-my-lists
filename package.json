@@ -22,7 +22,8 @@
     "react-select": "^5.8.0",
     "react-simple-toasts": "^5.10.0",
     "tailwind-merge": "^2.3.0",
-    "use-local-storage-state": "^19.2.0"
+    "use-local-storage-state": "^19.2.0",
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
