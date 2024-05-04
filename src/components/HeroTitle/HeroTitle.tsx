@@ -1,8 +1,11 @@
+import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function HeroTitle() {
   const [wordsOrder, setWordsOrder] = useState([0, 1, 2]);
+
+  const mdScreen = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +36,7 @@ export default function HeroTitle() {
         layout
         key={word}
         animate={{
-          x: indexFinal * 36,
+          x: indexFinal * (mdScreen ? 36 : 24),
         }}
       >
         {word}
@@ -42,7 +45,7 @@ export default function HeroTitle() {
   });
 
   return (
-    <h1 className="text-9xl flex flex-col leading-[115px] mx-auto">
+    <h1 className="text-6xl md:text-9xl flex flex-col md:leading-[115px] mx-auto">
       {wordsInMixedOrder}
     </h1>
   );

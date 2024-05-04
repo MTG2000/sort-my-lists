@@ -6,6 +6,7 @@ const API_URL = CONSTS.WORKER_API_URL;
 interface GamesApi {
   searchGames(query: string): Promise<Game[]>;
   getGamesByIds(ids: number[]): Promise<Game[]>;
+  getGamesWithRatingHigherThan(rating: number): Promise<Game[]>;
 }
 
 type GameDto = {
@@ -35,6 +36,18 @@ export const gamesApi: GamesApi = {
       body: `fields name, summary, url, cover.*;
             where id = (${ids.join(",")});
             limit ${ids.length};
+            `,
+    });
+    const data = await response.json();
+    return data.map(transformGameDtoToModel);
+  },
+
+  getGamesWithRatingHigherThan: async (rating: number) => {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: `fields name, summary, url, cover.*;
+            where rating > ${rating};
+            limit 100;
             `,
     });
     const data = await response.json();

@@ -24,12 +24,13 @@ export default function HomePage() {
       >
         <HeroTitle />
         <p className="text-2xl max-w-[60ch] leading-9">
-          Disorganized games backlog? <br />
-          Confused where to add the new one to your growing list? <br />
-          Say goodbye to the guesswork!
-          <br /> Using <span className="italic">SortMyGames</span>, find the
-          perfect spot to put a game even amid 1000-long list, by answering less
-          that 10 comparisons!
+          Confused where to put a new game in your ever-growing backlog?
+          <br />
+          Instead of guesswor, use <span className="italic">
+            SortMyGames
+          </span>{" "}
+          to find the perfect spot to put a game even amid 1000-long list, by
+          answering less that 10 comparisons!
         </p>
 
         {lists.length === 0 && (
@@ -37,7 +38,9 @@ export default function HomePage() {
             <Button onClick={handleCreateNewList} size="lg">
               Create Your First List
             </Button>
-            <p className="text-gray-400 italic mt-2">*It's completely free!</p>
+            <p className="text-gray-400 italic mt-2">
+              *Completely free, & no sign-up needed!
+            </p>
           </div>
         )}
 

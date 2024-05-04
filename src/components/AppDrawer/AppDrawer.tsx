@@ -49,10 +49,10 @@ export default function AppDrawer() {
 
   return (
     <>
-      <div className="py-16 xl:p-0"></div>
+      <div className="py-6 xl:p-0"></div>
       <aside className="fixed inset-y-0 left-0 w-full md:w-[400px] z-20 isolate pointer-events-none">
         <button
-          className="rounded-full bg-black bg-opacity-70 w-20 aspect-square absolute top-6 left-6 z-20 font-medium text-white flex flex-col justify-center items-center pointer-events-auto"
+          className="rounded-full bg-black bg-opacity-70 w-12 md:w-20 aspect-square absolute top-6 left-6 z-20 font-medium text-white flex flex-col justify-center items-center pointer-events-auto"
           onClick={() => {
             setMenuIsOpen((v) => !v);
           }}
@@ -60,6 +60,7 @@ export default function AppDrawer() {
         >
           {!menuIsOpen && (
             <motion.span
+              className="w-1/2"
               initial={{
                 opacity: 0,
                 rotateZ: 45,
@@ -70,8 +71,7 @@ export default function AppDrawer() {
               }}
             >
               <svg
-                width="40px"
-                height="40px"
+                className="w-full h-full"
                 viewBox="0 0 24 24"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg"

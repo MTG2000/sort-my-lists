@@ -84,9 +84,11 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
           className="object-cover mx-auto"
         />
         <div className="grow">
-          <h3 className="font-bold text-2xl">{game.name}</h3>
+          <h3 className="font-bold text-2xl max-md:text-center">{game.name}</h3>
           {game.summary && (
-            <p className="line-clamp-2 max-w-[70ch] mt-3">{game.summary}</p>
+            <p className="line-clamp-2 max-md:hidden max-w-[70ch] mt-3">
+              {game.summary}
+            </p>
           )}
         </div>
       </div>

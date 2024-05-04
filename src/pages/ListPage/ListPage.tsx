@@ -41,7 +41,7 @@ export default function ListPage() {
       <GamesListProvider listKey={list.id}>
         <div className="page-container py-8">
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-end">
+            <div className="flex items-center justify-end">
               <div className="grow">
                 <ListTitleInput
                   value={list.name}
