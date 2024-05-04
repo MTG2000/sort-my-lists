@@ -3,10 +3,13 @@ import FAQ from "@/components/FAQ/FAQ";
 import HeroTitle from "@/components/HeroTitle/HeroTitle";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
+import { useDocumentTitle } from "usehooks-ts";
 
 export default function HomePage() {
   const { lists, createNewList } = useListsManager();
   const navigate = useNavigate();
+
+  useDocumentTitle("SortMyGames");
 
   const handleCreateNewList = () => {
     const list = createNewList(`Untitled List ${lists.length + 1}`);
