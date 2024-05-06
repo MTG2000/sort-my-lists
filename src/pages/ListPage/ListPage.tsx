@@ -5,6 +5,7 @@ import OrderedItemsList from "@/components/OrderedItemsList/OrderedItemsList";
 import ShareListButton from "@/components/ShareListButton/ShareListButton";
 import { ItemsListProvider } from "@/lib/contexts/ItemsList.context";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
+import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useToast } from "@/lib/hooks/useToast";
 import { extractErrorMessage } from "@/lib/utils/helperFunctions";
@@ -14,6 +15,8 @@ import { useDocumentTitle } from "usehooks-ts";
 export default function ListPage() {
   const params = useParams<{ slug: string }>();
   const listSlug = params.slug;
+
+  const { section } = useSectionApis();
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ export default function ListPage() {
                   onUpdate={handleUpdateListName}
                 />
               </div>
-              <ShareListButton listTitle={list.name} />
+              {section === "games" && <ShareListButton listTitle={list.name} />}
             </div>
             <ItemSearchInput />
             <OrderedItemsList />

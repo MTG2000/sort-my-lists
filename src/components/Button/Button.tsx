@@ -17,12 +17,12 @@ export type LinkButtonProps = LinkProps & {
 const buttonVariants = {
   white: "bg-white text-black active:bg-gray-100",
   whiteOutlined:
-    "bg-transparent hover:bg-gray-800 bg-opacity-20 text-white border border-white active:text-white active:border-white",
+    "bg-transparent hover:bg-gray-800 hover:bg-opacity-50 text-white border border-white active:text-white active:border-white",
   primary: "bg-primary active:text-primaryDarkerer",
   secondary: "bg-secondary",
   danger: "bg-danger text-white",
   primaryOutlined:
-    "bg-transparent hover:bg-gray-800 bg-opacity-20 text-primary border border-primary active:text-primaryDarker acitve:border-primaryDarker",
+    "bg-transparent hover:bg-gray-800 hover:bg-opacity-20 text-primary border border-primary active:text-primaryDarker acitve:border-primaryDarker",
   secondaryOutlined:
     "bg-white border border-secondary text-secondary active:text-primaryDarker",
   text: "shadow-none text-primary bg-transparent active:text-primaryDarker",
