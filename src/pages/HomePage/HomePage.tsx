@@ -36,7 +36,7 @@ export default function HomePage() {
     <main className="page-container">
       <section
         id="hero"
-        className="min-h-[min(90vh,900px)] flex flex-col gap-16 justify-center pt-[min(30vh,300px)]"
+        className="min-h-[min(90vh,900px)] flex flex-col gap-16 justify-center pt-28 md:pt-[min(30vh,300px)]"
       >
         <HeroTitle itemsName={sectionCapitalized} />
         <p className="text-2xl max-w-[60ch] leading-9">

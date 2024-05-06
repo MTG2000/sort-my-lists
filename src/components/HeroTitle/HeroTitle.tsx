@@ -36,7 +36,7 @@ export default function HeroTitle({ itemsName }: { itemsName: string }) {
         layout
         key={word}
         animate={{
-          x: indexFinal * (mdScreen ? 36 : 24),
+          x: indexFinal * (mdScreen ? 36 : 18),
         }}
       >
         {word}

@@ -52,15 +52,15 @@ body {
 }
 
 body:has(#books) {
-  --background-color-1: rgb(32 67 37);
-  --background-color-2: rgb(52 97 60);
+  --background-color-1: rgb(43, 54, 45);
+  --background-color-2: rgb(67, 89, 71);
   --background-color-3: rgb(22 30 22);
 }
 
 body:has(#movies) {
-  --background-color-1: rgb(62 37 64);
-  --background-color-2: rgb(85 51 88);
-  --background-color-3: rgb(30 22 30);
+  --background-color-1: rgb(63, 41, 65);
+  --background-color-2: rgb(97, 73, 100);
+  --background-color-3: rgb(43, 35, 43);
 }
 
 ::-moz-selection {
