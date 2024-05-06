@@ -1,4 +1,4 @@
-import { useContext, useMemo, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Item } from "@/core/models";
 import { withProviders } from "@/lib/utils/hoc";
 import { MenuProps } from "react-select";
@@ -10,7 +10,7 @@ import {
 } from "./item-insert-position-context";
 import { useItemsList } from "@/lib/contexts/ItemsList.context";
 import useFocusWithin from "@/lib/hooks/useFocusWithin";
-import debounce from "debounce";
+import debounce, { DebouncedFunction } from "debounce";
 import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 
 function ItemSearchInputBase() {
@@ -19,10 +19,20 @@ function ItemSearchInputBase() {
   const { addItem } = useItemsList();
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const debouncedFetchOptions = useMemo(
-    () => debounce(fetchSearchResults, 300),
-    [fetchSearchResults]
-  );
+  const debouncedFetchFnRef =
+    useRef<
+      DebouncedFunction<
+        (inputValue: string, callback: (result: Item[]) => void) => void
+      >
+    >();
+
+  if (!debouncedFetchFnRef.current) {
+    debouncedFetchFnRef.current = debounce(fetchSearchResults, 300);
+  }
+
+  useEffect(() => {
+    debouncedFetchFnRef.current = debounce(fetchSearchResults, 300);
+  }, [fetchSearchResults]);
 
   const isFocusedWithin = useFocusWithin(ref);
 
@@ -35,7 +45,7 @@ function ItemSearchInputBase() {
         menuIsOpen={isFocusedWithin}
         cacheOptions={true}
         defaultOptions
-        loadOptions={debouncedFetchOptions}
+        loadOptions={debouncedFetchFnRef.current}
         components={{
           Option,
           Menu,

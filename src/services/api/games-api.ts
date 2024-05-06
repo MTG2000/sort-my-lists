@@ -24,7 +24,9 @@ export const gamesApi: GamesApi = {
     const response = await fetch(API_URL, {
       method: "POST",
       body: `fields name, summary, url, cover.*;
-            search "${query}";`,
+            search "${query}";
+            where category = (0,1,2,4,8,9,10,11,13);
+            `,
     });
     const data = await response.json();
     return data.map(transformGameDtoToItem);
