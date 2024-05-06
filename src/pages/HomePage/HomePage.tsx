@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button/Button";
 import FAQ from "@/components/FAQ/FAQ";
 import HeroTitle from "@/components/HeroTitle/HeroTitle";
+import SectionsSwitch from "@/components/SectionsSwitch/SectionsSwitch";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
 import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
@@ -30,7 +31,7 @@ export default function HomePage() {
         id="hero"
         className="min-h-[min(90vh,900px)] flex flex-col gap-16 justify-center pt-[min(30vh,300px)]"
       >
-        <HeroTitle />
+        <HeroTitle itemsName={sectionCapitalized} />
         <p className="text-2xl max-w-[60ch] leading-9">
           Confused where to put a new item in your ever-growing backlog?
           <br />
@@ -41,10 +42,12 @@ export default function HomePage() {
           answering less that 10 comparisons!
         </p>
 
+        <SectionsSwitch />
+
         {lists.length === 0 && (
           <div className="self-center">
             <Button onClick={handleCreateNewList} size="lg">
-              Create Your First List
+              Create Your First {sectionCapitalized} List
             </Button>
             <p className="text-gray-400 italic mt-2">
               *Completely free, & no sign-up needed!

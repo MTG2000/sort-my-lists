@@ -1,8 +1,7 @@
 export default {
 	async fetch(request, env) {
 		const CLIENT_ID = env.CLIENT_ID;
-
-		const accessToken = await fetchAccessTokenFromTwitch(env);
+		const OMDBAPI_API_KEY = env.OMDBAPI_API_KEY;
 
 		const corsHeaders = {
 			'Access-Control-Allow-Origin': '*',
@@ -26,20 +25,30 @@ export default {
 				apiUrl = DEFAULT_API_URL;
 			}
 
+			if (apiUrl.includes('omdbapi')) {
+				const search = url.searchParams.get('search');
+				apiUrl = apiUrl + `/?s=${search}&apikey=${OMDBAPI_API_KEY}`;
+			}
+
 			// Rewrite request to point to API URL. This also makes the request mutable
 			// so you can add the correct Origin header to make the API server think
 			// that this request is not cross-site.
 			request = new Request(apiUrl, request);
 			request.headers.set('Origin', new URL(apiUrl).origin);
 			request.headers.set('Client-ID', CLIENT_ID);
-			request.headers.set('Authorization', `Bearer ${accessToken}`);
+
+			if (apiUrl.includes('igdb')) {
+				const accessToken = await fetchAccessTokenFromTwitch(env);
+				request.headers.set('Authorization', `Bearer ${accessToken}`);
+			}
+
 			let response = await fetch(request);
 			// Recreate the response so you can modify the headers
 
 			response = new Response(response.body, response);
 			// Set CORS headers
 
-			const allowedOrigins = ['https://sort-my-games.pages.dev', 'http://localhost:5173'];
+			const allowedOrigins = ['https://sort-my-games.pages.dev', 'https://sort-my-lists.pages.dev', 'http://localhost:5173'];
 
 			response.headers.set('Access-Control-Allow-Origin', allowedOrigins.includes(originHeader) ? originHeader : '');
 

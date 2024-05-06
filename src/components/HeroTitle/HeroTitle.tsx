@@ -2,7 +2,7 @@ import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-export default function HeroTitle() {
+export default function HeroTitle({ itemsName }: { itemsName: string }) {
   const [wordsOrder, setWordsOrder] = useState([0, 1, 2]);
 
   const mdScreen = useMediaQuery("(min-width: 768px)");
@@ -30,7 +30,7 @@ export default function HeroTitle() {
   }, []);
 
   const wordsInMixedOrder = wordsOrder.map((index, indexFinal) => {
-    const word = ["Sort", "My", "Games"][index];
+    const word = ["Sort", "My", itemsName][index];
     return (
       <motion.span
         layout

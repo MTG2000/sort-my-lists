@@ -7,14 +7,16 @@ interface BooksApi {
   getBooksByIds(ids: number[]): Promise<Item[]>;
 }
 
-type GameDto = {
-  id: number;
-  cover?: {
-    image_id: number;
+type BooksDto = {
+  id: string;
+  volumeInfo: {
+    imageLinks?: {
+      thumbnail: string;
+    };
+    title: string;
+    description?: string;
+    infoLink?: string;
   };
-  name: string;
-  summary?: string;
-  url?: string;
 };
 
 export const booksApi: BooksApi = {
@@ -28,7 +30,7 @@ export const booksApi: BooksApi = {
       method: "GET",
     });
     const data = await response.json();
-    return data.map(transformGameDtoToItem);
+    return data.items.map(transformBookDTOtoItem);
   },
 
   getBooksByIds: async (ids: number[]) => {
@@ -41,18 +43,16 @@ export const booksApi: BooksApi = {
     });
 
     const data = await response.json();
-    return data.map(transformGameDtoToItem);
+    return data.items.map(transformBookDTOtoItem);
   },
 };
 
-function transformGameDtoToItem(dto: GameDto): Item {
+function transformBookDTOtoItem(dto: BooksDto): Item {
   return {
     id: dto.id,
-    image: dto.cover
-      ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${dto.cover.image_id}.jpeg`
-      : null,
-    name: dto.name,
-    summary: dto.summary,
-    url: dto.url,
+    image: dto.volumeInfo.imageLinks?.thumbnail ?? "",
+    name: dto.volumeInfo.title,
+    summary: dto.volumeInfo.description,
+    url: dto.volumeInfo.infoLink,
   };
 }

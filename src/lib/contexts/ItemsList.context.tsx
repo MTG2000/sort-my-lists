@@ -40,8 +40,6 @@ export const ItemsListProvider: React.FC<{
 }> = ({ children, listKey = "default" }) => {
   const { section } = useSectionApis();
 
-  console.log(`${section}:List-${listKey}`);
-
   const [items, setItems] = useLocalStorageState<Item[]>(
     `${section}:List-${listKey}`,
     {

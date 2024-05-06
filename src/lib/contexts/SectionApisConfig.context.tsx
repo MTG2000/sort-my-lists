@@ -30,9 +30,23 @@ export const SectionsApisConfigProvider: React.FC<{
             callback([]);
           });
       } else if (section === "movies") {
-        // fetch movies
+        API.moviesApi
+          .searchMovies(inputValue)
+          .then(callback)
+          .catch((error) => {
+            console.log("Error in fetching from API");
+            console.log(error);
+            callback([]);
+          });
       } else if (section === "books") {
-        // fetch books
+        API.booksApi
+          .searchBooks(inputValue)
+          .then(callback)
+          .catch((error) => {
+            console.log("Error in fetching from API");
+            console.log(error);
+            callback([]);
+          });
       }
     },
     [section]

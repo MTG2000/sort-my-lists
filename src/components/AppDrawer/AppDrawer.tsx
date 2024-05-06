@@ -10,6 +10,7 @@ import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useToast } from "@/lib/hooks/useToast";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
+import SectionsSwitch from "../SectionsSwitch/SectionsSwitch";
 
 export default function AppDrawer() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -17,6 +18,7 @@ export default function AppDrawer() {
   const toast = useToast();
   const { lists, createNewList, deleteList } = useListsManager();
   const { section } = useSectionApis();
+  const capitalizedSection = section.charAt(0).toUpperCase() + section.slice(1);
 
   const handleCreateNewList = () => {
     const list = createNewList(`Untitled List ${lists.length + 1}`);
@@ -51,8 +53,11 @@ export default function AppDrawer() {
 
   return (
     <>
-      <div className="py-6 xl:p-0"></div>
-      <aside className="fixed inset-y-0 left-0 w-full md:w-[400px] z-20 isolate pointer-events-none">
+      <div className="py-6 xl:p-0 bg"></div>
+      <motion.aside
+        layoutRoot
+        className="fixed inset-y-0 left-0 w-full md:w-[400px] z-20 isolate pointer-events-none"
+      >
         <button
           className="rounded-full bg-black bg-opacity-70 w-12 md:w-20 aspect-square absolute top-6 left-6 z-20 font-medium text-white flex flex-col justify-center items-center pointer-events-auto"
           onClick={() => {
@@ -147,11 +152,13 @@ export default function AppDrawer() {
             onClick={closeMenu}
             className="text-5xl font-bold hover:scale-105 transition-transform"
           >
-            SortMyGames
+            SortMy{capitalizedSection}
           </Link>
 
+          <SectionsSwitch size="sm" />
+
           <div>
-            <p className="text-xl font-bold">All Lists:</p>
+            <p className="text-xl font-bold">{capitalizedSection} Lists:</p>
             <ul className="pt-4 space-y-3">
               {lists.map((list) => (
                 <li key={list.id} className="flex gap-2">
@@ -195,7 +202,7 @@ export default function AppDrawer() {
             <ImportDataButton onCompleted={closeMenuIfFullScreen} />
           </div>
         </motion.div>
-      </aside>
+      </motion.aside>
     </>
   );
 }

@@ -42,15 +42,15 @@ export function CompareItemsModal() {
     [string, string] | null
   >(null);
 
-  const gamesToCompareKey = itemsToCompare?.map((game) => game.id).join("-");
+  const itemsToCompareKey = itemsToCompare?.map((item) => item.id).join("-");
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     setNumOfComparisonsMade(0);
   }
 
-  const onGameChoose = (gameId: number) => {
-    if (itemsToCompare![0].id === gameId) {
+  const onItemChoose = (itemId: number | string) => {
+    if (itemsToCompare![0].id === itemId) {
       setWinnerLoserChoice(["win", "lose"]);
     } else {
       setWinnerLoserChoice(["lose", "win"]);
@@ -81,7 +81,15 @@ export function CompareItemsModal() {
       );
 
   return (
-    <div>
+    <div
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") {
+          onItemChoose(itemsToCompare![1].id);
+        } else if (e.key === "ArrowLeft") {
+          onItemChoose(itemsToCompare![0].id);
+        }
+      }}
+    >
       <Modal
         isOpen={comparisonFlowOpen}
         onAfterOpen={afterOpenModal}
@@ -93,7 +101,7 @@ export function CompareItemsModal() {
       >
         {progressCompleted && (
           <div className="space-y-8">
-            <p className="text-3xl">Game Added!</p>
+            <p className="text-3xl">Successfully Added!</p>
             <svg
               fill="#000000"
               viewBox="0 0 36 36"
@@ -119,7 +127,7 @@ export function CompareItemsModal() {
         {!progressCompleted && (
           <>
             <h2 className="text-2xl md:text-4xl">
-              Choose the game you prefer more
+              Choose the one you prefer more
             </h2>
 
             <div className="w-full max-w-[min(60%,240px)] mx-auto h-2 relative rounded-lg bg-gray-900 overflow-hidden">
@@ -140,11 +148,11 @@ export function CompareItemsModal() {
 
             {itemsToCompare && (
               <div
-                key={gamesToCompareKey}
+                key={itemsToCompareKey}
                 className="flex gap-4 flex-wrap justify-around items-center"
               >
                 <motion.button
-                  onClick={() => onGameChoose(itemsToCompare[0].id)}
+                  onClick={() => onItemChoose(itemsToCompare[0].id)}
                   className="w-40 space-y-4 group"
                   variants={variants}
                   initial="hideInitial"
@@ -168,7 +176,7 @@ export function CompareItemsModal() {
                   VS
                 </span>
                 <motion.button
-                  onClick={() => onGameChoose(itemsToCompare[1].id)}
+                  onClick={() => onItemChoose(itemsToCompare[1].id)}
                   className="w-40 space-y-4 group"
                   variants={variants}
                   initial="hideInitial"
@@ -189,6 +197,13 @@ export function CompareItemsModal() {
                 </motion.button>
               </div>
             )}
+
+            <p className="text-gray-400 mt-8">
+              You could use the{" "}
+              <span className="font-bold text-gray-200">Left</span> and{" "}
+              <span className="font-bold text-gray-200">Right</span> arrow keys
+              to choose
+            </p>
           </>
         )}
       </Modal>

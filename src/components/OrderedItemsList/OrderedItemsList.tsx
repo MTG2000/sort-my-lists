@@ -83,7 +83,7 @@ const ItemCard = ({ item, idx }: { item: Item; idx: number }) => {
           width={120}
           className="object-cover mx-auto"
         />
-        <div className="grow">
+        <div className="grow self-center">
           <h3 className="font-bold text-2xl max-md:text-center">{item.name}</h3>
           {item.summary && (
             <p className="line-clamp-2 max-md:hidden max-w-[70ch] mt-3">

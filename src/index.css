@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@property --background-color-1 {
+  syntax: "<color>";
+  initial-value: rgb(21 43 71);
+  inherits: false;
+}
+
+@property --background-color-2 {
+  syntax: "<color>";
+  initial-value: rgb(58 73 92);
+  inherits: false;
+}
+
+@property --background-color-3 {
+  syntax: "<color>";
+  initial-value: rgb(22 24 30);
+  inherits: false;
+}
+
 :root {
   font-family: "K2D", system-ui, Avenir, Helvetica, Arial, sans-serif;
 
@@ -19,17 +37,30 @@
 
 body {
   /* background-color: #262933; */
+  margin: 0;
+  min-height: 100vh;
   background: linear-gradient(
     109.6deg,
-    rgb(21 43 71) 11.2%,
-    rgb(58 73 92) 51.2%,
-    rgb(22 24 30) 98.6%
+    var(--background-color-1) 11.2%,
+    var(--background-color-2) 51.2%,
+    var(--background-color-3) 98.6%
   );
   background-repeat: no-repeat;
   background-attachment: fixed;
+  transition: --background-color-1 0.5s, --background-color-2 0.5s,
+    --background-color-3 0.5s;
+}
 
-  margin: 0;
-  min-height: 100vh;
+body:has(#books) {
+  --background-color-1: rgb(32 67 37);
+  --background-color-2: rgb(52 97 60);
+  --background-color-3: rgb(22 30 22);
+}
+
+body:has(#movies) {
+  --background-color-1: rgb(72 37 75);
+  --background-color-2: rgb(86 54 88);
+  --background-color-3: rgb(30 22 30);
 }
 
 ::-moz-selection {
