@@ -198,8 +198,14 @@ export default function AppDrawer() {
           </div>
           <hr className="border-gray-500" />
           <div className="space-y-3">
-            <ExportDataButton onCompleted={closeMenuIfFullScreen} />
-            <ImportDataButton onCompleted={closeMenuIfFullScreen} />
+            <ExportDataButton
+              section={section}
+              onCompleted={closeMenuIfFullScreen}
+            />
+            <ImportDataButton
+              section={section}
+              onCompleted={closeMenuIfFullScreen}
+            />
           </div>
         </motion.div>
       </motion.aside>

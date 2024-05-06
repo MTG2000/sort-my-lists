@@ -6,10 +6,11 @@ import { extractErrorMessage } from "@/lib/utils/helperFunctions";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 
 interface Props {
+  section: string;
   onCompleted?: () => void;
 }
 
-export default function ImportDataButton({ onCompleted }: Props) {
+export default function ImportDataButton({ section, onCompleted }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null!);
   const toast = useToast();
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ export default function ImportDataButton({ onCompleted }: Props) {
         onClick={() => {
           fileInputRef.current.click();
         }}
+        className="capitalize"
       >
         <svg
           width="20px"
@@ -74,7 +76,7 @@ export default function ImportDataButton({ onCompleted }: Props) {
             strokeLinejoin="round"
           />
         </svg>{" "}
-        Import Data From Backup File
+        Recover {section} Data From Backup File
       </Button>
     </div>
   );

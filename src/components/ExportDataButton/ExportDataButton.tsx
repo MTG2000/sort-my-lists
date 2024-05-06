@@ -3,10 +3,11 @@ import { useToast } from "@/lib/hooks/useToast";
 import { Button } from "../Button/Button";
 
 interface Props {
+  section: string;
   onCompleted?: () => void;
 }
 
-export default function ExportDataButton({ onCompleted }: Props) {
+export default function ExportDataButton({ section, onCompleted }: Props) {
   const toast = useToast();
   const exportData = useExportData();
 
@@ -19,6 +20,7 @@ export default function ExportDataButton({ onCompleted }: Props) {
       }}
       fullWidth
       variant="whiteOutlined"
+      className="capitalize"
     >
       <svg
         width="20px"
@@ -36,7 +38,7 @@ export default function ExportDataButton({ onCompleted }: Props) {
           fill="currentColor"
         />
       </svg>{" "}
-      Export Data to a Backup File
+      Export {section} Data to a Backup File
     </Button>
   );
 }

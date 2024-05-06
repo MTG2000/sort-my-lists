@@ -1,3 +1,4 @@
+import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 import { cn } from "@/lib/utils/helperFunctions";
 import {
   Accordion,
@@ -9,6 +10,9 @@ import {
 } from "react-accessible-accordion";
 
 export default function FAQ() {
+  const { section } = useSectionApis();
+  const sectionCapitalized = section.charAt(0).toUpperCase() + section.slice(1);
+
   return (
     <>
       <h2 className="text-5xl mb-5">FAQs</h2>
@@ -18,9 +22,19 @@ export default function FAQ() {
             key={index}
             className="bg-gray-600 bg-opacity-60 text-gray-200 rounded-lg my-4 shadow-md"
           >
-            <AccordionItemHeading className="font-bold p-4 text-xl text-purple-300">
+            <AccordionItemHeading
+              className={cn(
+                "font-bold p-4 text-xl",
+                section === "games" && "text-blue-300",
+                section === "movies" && "text-purple-300",
+                section === "books" && "text-green-200"
+              )}
+            >
               <AccordionItemButton className="flex justify-between">
-                {faq.question}{" "}
+                {faq.question
+                  .replace(/\{item\}/g, section.slice(0, -1))
+                  .replace(/\{items\}/g, section)
+                  .replace(/\{Items\}/g, sectionCapitalized)}
                 <AccordionItemState
                   children={({ expanded }) => (
                     <span
@@ -60,7 +74,14 @@ export default function FAQ() {
               </AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel className="px-4 pb-4 text-lg">
-              <p>{faq.answer}</p>
+              <p>
+                {typeof faq.answer === "string"
+                  ? faq.answer
+                      .replace(/\{item\}/g, section.slice(0, -1))
+                      .replace(/\{items\}/g, section)
+                      .replace(/\{Items\}/g, sectionCapitalized)
+                  : faq.answer}
+              </p>
             </AccordionItemPanel>
           </AccordionItem>
         ))}
@@ -71,57 +92,58 @@ export default function FAQ() {
 
 const faqs = [
   {
-    question: "What is SortMyGames?",
+    question: "What is SortMy{Items}?",
     answer:
-      "SortMyGames is an innovative web application designed to take the stress out of creating and managing your games list. No more random placements – it's an app that uses a smart algorithm to help you sort your games efficiently and accurately, all with a sprinkle of fun!",
+      "SortMy{Items} is an innovative web application designed to take the stress out of creating and managing your items list. No more random placements – it's an app that uses a smart algorithm to help you sort your items efficiently and accurately, all with a sprinkle of fun!",
   },
   {
-    question: "How does SortMyGames differ from other game-listing websites?",
+    question:
+      "How does SortMy{Items} differ from other {item}-listing websites?",
     answer:
-      "Unlike most game listing websites that leave you in a pickle when adding new games to a lengthy list, SortMyGames uses a smart algorithm to find the perfect nook for your game. Even if your list is swelling with 1000 games, our app is smart enough to ask you just 10 questions to find the right place for the newcomer. So, no more scratching your head over where to place the new game.",
+      "Unlike most {item} listing websites that leave you in a pickle when adding new items to a lengthy list, SortMy{Items} uses a smart algorithm to find the perfect nook for your {item}. Even if your list is swelling with 1000 items, our app is smart enough to ask you just 10 questions to find the right place for the newcomer. So, no more scratching your head over where to place the new {item}.",
   },
   {
     question: "Can you tell me more about this smart algorithm?",
     answer:
-      "For those with a tech itch, here it is: SortMyGames uses AVL trees at its core. These are a type of self-balancing binary search trees that helps us reduce the search area by half with each user response. Just like magic, but with a pinch of tech!",
+      "For those with a tech itch, here it is: SortMy{Items} uses AVL trees at its core. These are a type of self-balancing binary search trees that helps us reduce the search area by half with each user response. Just like magic, but with a pinch of tech!",
   },
   {
-    question: "What's the story behind SortMyGames?",
+    question: "What's the story behind SortMy{Items}?",
     answer:
-      "SortMyGames started as a personal project out of frustration with having a massive games list and nowhere sensible to put new entries. After showing it to some friends who loved it, I polished and refined the concept, and decided to share it with all of you since it seemed to be a common pain!",
+      "SortMy{Items} started as a personal project out of frustration with having a massive items list and nowhere sensible to put new entries. After showing it to some friends who loved it, I polished and refined the concept, and decided to share it with all of you since it seemed to be a common pain!",
   },
   {
-    question: "Can I rearrange the order of my games manually?",
+    question: "Can I rearrange the order of my items manually?",
     answer:
-      "Sure thing! You have all the normal sorting options like drag-&-drop or moving games up and down the list. Our smart algorithm will recalibrate and maintain the overall integrity of your list.",
+      "Sure thing! You have all the normal sorting options like drag-&-drop or moving items up and down the list. Our smart algorithm will recalibrate and maintain the overall integrity of your list.",
   },
   {
-    question: "How does the game comparison work?",
+    question: "How does the {item} comparison work?",
     answer:
-      "When the smart algorithm needs to compare games, it's like setting up a duel. Two games. One choice. You decide which comes first! Based on your selection, our algorithm shrinks the search area, ultimately unearthing the sweet spot for your game.",
+      "When the smart algorithm needs to compare items, it's like setting up a duel. Two items. One choice. You decide which comes first! Based on your selection, our algorithm shrinks the search area, ultimately unearthing the sweet spot for your {item}.",
   },
   {
-    question: "Is there a limit to my game list?",
+    question: "Is there a limit to my {items} list?",
     answer:
-      "The sky's the limit here! The algorithm handles even gigantic lists without breaking a sweat. Only 10 comparisons are needed for a list of 1000 games!",
+      "The sky's the limit here! The algorithm handles even gigantic lists without breaking a sweat. Only 10 comparisons are needed for a list of 1000 items!",
   },
   {
-    question: "Where is my game list data stored?",
+    question: "Where is my {items} list data stored?",
     answer:
       "Everything's stored locally on your browser – we don't store anything remotely. So we highly recommend backing up your data regularly. You can do this easily via our simple 'Export Data to a Backup File' feature.",
   },
   {
-    question: "Where does the games data come from?",
+    question: "Where does the items data come from?",
     answer:
-      "All game data is fetched from the igdb.com API. So, if you spot something missing or incorrect, head over there to make updates.",
+      "All {items} data is fetched from the igdb.com API. So, if you spot something missing or incorrect, head over there to make updates.",
   },
   {
-    question: "Is SortMyGames free?",
+    question: "Is SortMy{Items} free?",
     answer: (
       <>
-        Absolutely! Keep your wallet tucked away. SortMyGames is free, and
-        always will be. But if you fancy sending a 'Thank You' note our way, we
-        wouldn't say no to a cup of coffee! You can{" "}
+        Absolutely! Keep your wallet tucked away. It is 100% free, and always
+        will be. But if you fancy sending a more tangible 'Thank You' note my
+        way, you can do so here:{" "}
         <a
           href="https://buymeacoffee.com/mohammed_taher_ghazal"
           target="_blank"
