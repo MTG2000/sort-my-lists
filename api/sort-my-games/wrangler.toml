@@ -1,4 +1,4 @@
-name = "sort-my-games"
+name = "sort-my-lists"
 main = "src/worker.js"
 compatibility_date = "2024-04-27"
 workers_dev = true
