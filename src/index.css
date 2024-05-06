@@ -58,8 +58,8 @@ body:has(#books) {
 }
 
 body:has(#movies) {
-  --background-color-1: rgb(72 37 75);
-  --background-color-2: rgb(86 54 88);
+  --background-color-1: rgb(62 37 64);
+  --background-color-2: rgb(85 51 88);
   --background-color-3: rgb(30 22 30);
 }
 

@@ -9,12 +9,13 @@ import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useToast } from "@/lib/hooks/useToast";
 import { extractErrorMessage } from "@/lib/utils/helperFunctions";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useDocumentTitle } from "usehooks-ts";
 
 export default function ListPage() {
   const params = useParams<{ slug: string }>();
   const listSlug = params.slug;
+  const { state } = useLocation();
 
   const { section } = useSectionApis();
 
@@ -49,6 +50,7 @@ export default function ListPage() {
                 <ListTitleInput
                   value={list.name}
                   onUpdate={handleUpdateListName}
+                  autoFocus={state?.newList}
                 />
               </div>
               {section === "games" && <ShareListButton listTitle={list.name} />}

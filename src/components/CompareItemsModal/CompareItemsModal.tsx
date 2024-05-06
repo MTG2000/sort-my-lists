@@ -18,11 +18,11 @@ const variants = {
   hideInitial: { opacity: 0, scale: 0.8 },
   hideWorse: {
     opacity: 0,
-    y: 100,
+    y: 50,
   },
   hideBetter: {
     opacity: 0,
-    y: -100,
+    y: -50,
   },
   visible: { opacity: 1, y: 0, scale: 1 },
 };
@@ -37,6 +37,7 @@ export function CompareItemsModal() {
   } = useItemsList();
 
   const [numOfComparisonsMade, setNumOfComparisonsMade] = useState(0);
+  const [showGreenOverlay, setShowGreenOverlay] = useState(false);
 
   const [winnerLoserChoice, setWinnerLoserChoice] = useState<
     [string, string] | null
@@ -55,6 +56,11 @@ export function CompareItemsModal() {
     } else {
       setWinnerLoserChoice(["lose", "win"]);
     }
+
+    setShowGreenOverlay(true);
+    setTimeout(() => {
+      setShowGreenOverlay(false);
+    }, 100);
 
     setNumOfComparisonsMade(numOfComparisonsMade + 1);
   };
@@ -165,11 +171,16 @@ export function CompareItemsModal() {
                   }
                   onAnimationComplete={onAnimationComplete}
                 >
-                  <img
-                    src={itemsToCompare[0].image ?? ""}
-                    className="object-cover w-full group-hover:hover:scale-110 group-active:scale-95 transition-transform"
-                    alt={itemsToCompare[0].name}
-                  />
+                  <div className="relative">
+                    <img
+                      src={itemsToCompare[0].image ?? ""}
+                      className="object-cover w-full group-hover:hover:scale-110 group-active:scale-95 transition-transform"
+                      alt={itemsToCompare[0].name}
+                    />
+                    {winnerLoserChoice?.[0] === "win" && showGreenOverlay && (
+                      <div className="absolute inset-0 bg-green-400 bg-opacity-50"></div>
+                    )}
+                  </div>
                   <span className="inline-block">{itemsToCompare[0].name}</span>
                 </motion.button>
                 <span className="text-3xl font-bold italic max-md:w-full">
@@ -188,11 +199,16 @@ export function CompareItemsModal() {
                       : "hideWorse"
                   }
                 >
-                  <img
-                    src={itemsToCompare[1].image ?? ""}
-                    className="object-cover w-full group-hover:hover:scale-110 group-active:scale-95 transition-transform"
-                    alt={itemsToCompare[1].name}
-                  />
+                  <div className="relative">
+                    <img
+                      src={itemsToCompare[1].image ?? ""}
+                      className="object-cover w-full group-hover:hover:scale-110 group-active:scale-95 transition-transform"
+                      alt={itemsToCompare[1].name}
+                    />
+                    {winnerLoserChoice?.[1] === "win" && showGreenOverlay && (
+                      <div className="absolute inset-0 bg-green-400 bg-opacity-50"></div>
+                    )}
+                  </div>
                   <span className="inline-block">{itemsToCompare[1].name}</span>
                 </motion.button>
               </div>

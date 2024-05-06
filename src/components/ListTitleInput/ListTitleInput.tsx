@@ -2,11 +2,12 @@ import { cn } from "@/lib/utils/helperFunctions";
 import React, { useState } from "react";
 
 interface Props {
+  autoFocus?: boolean;
   value: string;
   onUpdate: (newTitle: string) => void;
 }
 
-export default function ListTitleInput({ value, onUpdate }: Props) {
+export default function ListTitleInput({ autoFocus, value, onUpdate }: Props) {
   const [title, setTitle] = React.useState(value);
   const [changesSaved, setChangesSaved] = useState(true);
   const inputRef = React.useRef<HTMLInputElement>(null!);
@@ -15,6 +16,7 @@ export default function ListTitleInput({ value, onUpdate }: Props) {
     <div>
       <div className="flex gap-2">
         <input
+          autoFocus={autoFocus}
           ref={inputRef}
           type="text"
           className={cn(

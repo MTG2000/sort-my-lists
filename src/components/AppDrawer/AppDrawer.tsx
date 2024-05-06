@@ -22,10 +22,17 @@ export default function AppDrawer() {
 
   const handleCreateNewList = () => {
     const list = createNewList(`Untitled List ${lists.length + 1}`);
-    navigate({
-      type: "list",
-      slug: list.slug,
-    });
+    navigate(
+      {
+        type: "list",
+        slug: list.slug,
+      },
+      {
+        state: {
+          newList: true,
+        },
+      }
+    );
   };
 
   const drawerFillFullScreen = useMediaQuery("(max-width: 768px)");

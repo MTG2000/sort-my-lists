@@ -19,10 +19,17 @@ export default function HomePage() {
 
   const handleCreateNewList = () => {
     const list = createNewList(`Untitled List ${lists.length + 1}`);
-    navigate({
-      type: "list",
-      slug: list.slug,
-    });
+    navigate(
+      {
+        type: "list",
+        slug: list.slug,
+      },
+      {
+        state: {
+          newList: true,
+        },
+      }
+    );
   };
 
   return (
@@ -35,11 +42,10 @@ export default function HomePage() {
         <p className="text-2xl max-w-[60ch] leading-9">
           Confused where to put a new item in your ever-growing backlog?
           <br />
-          Instead of guesswor, use <span className="italic">
-            SortMyItems
-          </span>{" "}
-          to find the perfect spot to put an item even amid 1000-long list, by
-          answering less that 10 comparisons!
+          Instead of guesswor, use{" "}
+          <span className="italic">SortMy{sectionCapitalized}</span> to find the
+          perfect spot to put an {section.slice(0, -1)} even amid 1000-long
+          list, by answering less that 10 comparisons!
         </p>
 
         <SectionsSwitch />
