@@ -34,6 +34,7 @@ export function CompareItemsModal() {
     maxItemsToCompare,
     itemsToCompare,
     userComparisonChoiceHandler,
+    closeModalHandler,
   } = useItemsList();
 
   const [numOfComparisonsMade, setNumOfComparisonsMade] = useState(0);
@@ -99,12 +100,40 @@ export function CompareItemsModal() {
       <Modal
         isOpen={comparisonFlowOpen}
         onAfterOpen={afterOpenModal}
-        // onRequestClose={closeModal}
+        onRequestClose={closeModalHandler ?? (() => {})}
         style={customStyles}
         contentLabel="Example Modal"
         overlayClassName="fixed inset-0 bg-gray-600 bg-opacity-75"
         className="absolute inset-1/2 bg-gray-800 rounded-md p-5 py-9 w-[min(100%-32px,720px)] outline-none text-center overflow-hidden space-y-9"
       >
+        <button
+          className="absolute right-6 top-6 hover:bg-gray-700 p-3 rounded-full"
+          aria-label="Close Modal"
+          onClick={() => closeModalHandler?.()}
+        >
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="-0.5 0 25 25"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 21.32L21 3.32001"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M3 3.32001L21 21.32"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
         {progressCompleted && (
           <div className="space-y-8">
             <p className="text-3xl">Successfully Added!</p>

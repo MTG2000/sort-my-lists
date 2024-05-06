@@ -76,7 +76,7 @@ export default function ImportDataButton({ section, onCompleted }: Props) {
             strokeLinejoin="round"
           />
         </svg>{" "}
-        Recover {section} Data From Backup File
+        Import {section} Data From Backup File
       </Button>
     </div>
   );

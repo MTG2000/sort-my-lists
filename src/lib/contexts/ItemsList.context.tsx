@@ -28,6 +28,7 @@ interface ItemsListContextValue {
   maxItemsToCompare: number;
   itemsToCompare: [Item, Item] | null;
   userComparisonChoiceHandler: ((result: -1 | 1) => void) | null;
+  closeModalHandler: (() => void) | null;
 }
 
 const ItemsListContext = createContext<ItemsListContextValue | undefined>(
@@ -55,6 +56,9 @@ export const ItemsListProvider: React.FC<{
   );
   const [userComparisonChoiceHandler, setUserComparisonChoiceHandler] =
     useState<((result: -1 | 1) => void) | null>(null);
+  const [closeModalHandler, setCloseModalHandler] = useState<
+    (() => void) | null
+  >(null);
 
   const addItem = useCallback(
     async (item: Item, position: "first" | "last" | "figure-out") => {
@@ -69,7 +73,6 @@ export const ItemsListProvider: React.FC<{
 
       if (position === "figure-out") {
         // create avl tree from items
-
         const tree = await createTreeFromArrayHelper(
           items,
           async (a, b) =>
@@ -96,6 +99,14 @@ export const ItemsListProvider: React.FC<{
         // start the compare items flow (open modal)
         setComparisonFlowOpen(true);
         // ...
+
+        setCloseModalHandler(() => {
+          return () => {
+            setComparisonFlowOpen(false);
+            setItemsToCompare(null);
+            setUserComparisonChoiceHandler(null);
+          };
+        });
 
         // insert the new item into the tree
         await tree.insert(item);
@@ -185,6 +196,7 @@ export const ItemsListProvider: React.FC<{
         maxItemsToCompare: maxItemsToCompare,
         itemsToCompare: itemsToCompare,
         userComparisonChoiceHandler,
+        closeModalHandler,
       }}
     >
       {children}
