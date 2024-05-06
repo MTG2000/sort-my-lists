@@ -1,18 +1,20 @@
 import { useCallback } from "react";
-import { useGamesList } from "../contexts/GamesList.context";
+import { useItemsList } from "../contexts/ItemsList.context";
+import { useSectionApis } from "../contexts/SectionApisConfig.context";
 
 export const useCreateShareListUrl = (listTitle?: string) => {
-  const { games } = useGamesList();
+  const { items } = useItemsList();
+  const { section } = useSectionApis();
 
   const createShareUrl = useCallback(() => {
-    const idsList = games.map((game) => game.id);
-    const encodedGames = encodeURIComponent(JSON.stringify(idsList));
+    const idsList = items.map((item) => item.id);
+    const encodedItems = encodeURIComponent(JSON.stringify(idsList));
     const title = listTitle ? `&title=${listTitle}` : "";
 
     // const sharingURL = `${window.location.origin}/shared?games=${encoded}`;
 
-    return `${window.location.origin}/shared?games=${encodedGames}${title}`;
-  }, [games, listTitle]);
+    return `${window.location.origin}/shared?${section}=${encodedItems}${title}`;
+  }, [items, listTitle, section]);
 
   return createShareUrl;
 };

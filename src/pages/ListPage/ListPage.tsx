@@ -1,9 +1,9 @@
-import { CompareGamesModal } from "@/components/CompareGamesModal/CompareGamesModal";
-import { GameSearchInput } from "@/components/GameSearchInput/GameSearchInput";
+import { CompareItemsModal } from "@/components/CompareItemsModal/CompareItemsModal";
+import { ItemSearchInput } from "@/components/ItemSearchInput/ItemSearchInput";
 import ListTitleInput from "@/components/ListTitleInput/ListTitleInput";
-import OrderedGamesList from "@/components/OrderedGamesList/OrderedGamesList";
+import OrderedItemsList from "@/components/OrderedItemsList/OrderedItemsList";
 import ShareListButton from "@/components/ShareListButton/ShareListButton";
-import { GamesListProvider } from "@/lib/contexts/GamesList.context";
+import { ItemsListProvider } from "@/lib/contexts/ItemsList.context";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useToast } from "@/lib/hooks/useToast";
@@ -38,7 +38,7 @@ export default function ListPage() {
 
   return (
     <div key={list.id}>
-      <GamesListProvider listKey={list.id}>
+      <ItemsListProvider listKey={list.id}>
         <div className="page-container py-8">
           <div className="space-y-4">
             <div className="flex items-center justify-end">
@@ -50,12 +50,12 @@ export default function ListPage() {
               </div>
               <ShareListButton listTitle={list.name} />
             </div>
-            <GameSearchInput />
-            <OrderedGamesList />
+            <ItemSearchInput />
+            <OrderedItemsList />
           </div>
-          <CompareGamesModal />
+          <CompareItemsModal />
         </div>
-      </GamesListProvider>
+      </ItemsListProvider>
     </div>
   );
 }

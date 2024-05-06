@@ -1,29 +1,29 @@
 import { createContext } from "react";
 import useLocalStorageState from "use-local-storage-state";
 
-interface GameInsertPositionContextValue {
+interface ItemInsertPositionContextValue {
   position: "first" | "figure-out" | "last";
   onUpdateInsertPosition: (position: "first" | "figure-out" | "last") => void;
 }
 
-export const GameInsertPosition = createContext<
-  GameInsertPositionContextValue | undefined
+export const ItemInsertPosition = createContext<
+  ItemInsertPositionContextValue | undefined
 >(undefined);
 
-export const GameInsertPositionProvider = ({
+export const ItemInsertPositionProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
   const [position, setPosition] = useLocalStorageState<
     "first" | "figure-out" | "last"
-  >("game-insert-position", { defaultValue: "figure-out" });
+  >("item-insert-position", { defaultValue: "figure-out" });
 
   return (
-    <GameInsertPosition.Provider
+    <ItemInsertPosition.Provider
       value={{ position, onUpdateInsertPosition: setPosition }}
     >
       {children}
-    </GameInsertPosition.Provider>
+    </ItemInsertPosition.Provider>
   );
 };

@@ -1,12 +1,12 @@
 import { CONSTS } from "@/lib/consts";
-import { Game } from "@core/models";
+import { Item } from "@core/models";
 
 const API_URL = CONSTS.WORKER_API_URL;
 
 interface GamesApi {
-  searchGames(query: string): Promise<Game[]>;
-  getGamesByIds(ids: number[]): Promise<Game[]>;
-  getGamesWithRatingHigherThan(rating: number): Promise<Game[]>;
+  searchGames(query: string): Promise<Item[]>;
+  getGamesByIds(ids: number[]): Promise<Item[]>;
+  getGamesWithRatingHigherThan(rating: number): Promise<Item[]>;
 }
 
 type GameDto = {
@@ -27,7 +27,7 @@ export const gamesApi: GamesApi = {
             search "${query}";`,
     });
     const data = await response.json();
-    return data.map(transformGameDtoToModel);
+    return data.map(transformGameDtoToItem);
   },
 
   getGamesByIds: async (ids: number[]) => {
@@ -39,7 +39,7 @@ export const gamesApi: GamesApi = {
             `,
     });
     const data = await response.json();
-    return data.map(transformGameDtoToModel);
+    return data.map(transformGameDtoToItem);
   },
 
   getGamesWithRatingHigherThan: async (rating: number) => {
@@ -51,17 +51,15 @@ export const gamesApi: GamesApi = {
             `,
     });
     const data = await response.json();
-    return data.map(transformGameDtoToModel);
+    return data.map(transformGameDtoToItem);
   },
 };
 
-function transformGameDtoToModel(dto: GameDto): Game {
+function transformGameDtoToItem(dto: GameDto): Item {
   return {
     id: dto.id,
-    cover: dto.cover
-      ? {
-          url: `https://images.igdb.com/igdb/image/upload/t_cover_big/${dto.cover.image_id}.jpeg`,
-        }
+    image: dto.cover
+      ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${dto.cover.image_id}.jpeg`
       : null,
     name: dto.name,
     summary: dto.summary,

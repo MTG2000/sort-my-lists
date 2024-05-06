@@ -1,12 +1,14 @@
-import { Game } from "@/core/models";
+import { Item } from "@/core/models";
 import { ExportedData } from "./useExportData";
 import { useListsManager } from "../contexts/ListsManager.context";
+import { useSectionApis } from "../contexts/SectionApisConfig.context";
 
 export const useRecoverData = () => {
   const { lists, createNewList } = useListsManager();
+  const { section } = useSectionApis();
 
-  const updateListGames = (listId: string, games: Game[]) => {
-    localStorage.setItem(`List-${listId}`, JSON.stringify(games));
+  const updateListItems = (listId: string, items: Item[]) => {
+    localStorage.setItem(`${section}:List-${listId}`, JSON.stringify(items));
   };
 
   const recoverDataFromFile = async (file: File) => {
@@ -27,19 +29,42 @@ export const useRecoverData = () => {
         // );
         // if (!userAgreed) return;
 
-        // for each list in the file, if it doesn't already exist, create it. Then put its games in it.
-        // if the list do exist, just overwrite its games.
+        // for each list in the file, if it doesn't already exist, create it. Then put its items in it.
+        // if the list do exist, just overwrite its items.
 
         data.data.forEach((list) => {
           const existingList = lists.find((l) => l.id === list.listMetadata.id);
+
           if (!existingList) {
             const newList = createNewList(list.listMetadata.name, {
               id: list.listMetadata.id,
             });
 
-            updateListGames(newList.id, list.games);
+            let items = list.items;
+
+            if (list.games) {
+              items = list.games.map(({ cover, ...rest }) => {
+                return {
+                  ...rest,
+                  image: cover?.url ?? "",
+                };
+              });
+            }
+
+            updateListItems(newList.id, items);
           } else {
-            updateListGames(existingList.id, list.games);
+            let items = list.items;
+
+            if (list.games) {
+              items = list.games.map(({ cover, ...rest }) => {
+                return {
+                  ...rest,
+                  image: cover?.url ?? "",
+                };
+              });
+            }
+
+            updateListItems(existingList.id, items);
           }
         });
 

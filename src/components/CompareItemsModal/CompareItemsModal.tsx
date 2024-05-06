@@ -1,4 +1,4 @@
-import { useGamesList } from "@/lib/contexts/GamesList.context";
+import { useItemsList } from "@/lib/contexts/ItemsList.context";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Modal from "react-modal";
@@ -28,13 +28,13 @@ const variants = {
 };
 
 Modal.setAppElement("#root");
-export function CompareGamesModal() {
+export function CompareItemsModal() {
   const {
     comparisonFlowOpen,
-    maxGamesToCompare,
-    gamesToCompare,
+    maxItemsToCompare,
+    itemsToCompare,
     userComparisonChoiceHandler,
-  } = useGamesList();
+  } = useItemsList();
 
   const [numOfComparisonsMade, setNumOfComparisonsMade] = useState(0);
 
@@ -42,7 +42,7 @@ export function CompareGamesModal() {
     [string, string] | null
   >(null);
 
-  const gamesToCompareKey = gamesToCompare?.map((game) => game.id).join("-");
+  const gamesToCompareKey = itemsToCompare?.map((game) => game.id).join("-");
 
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -50,7 +50,7 @@ export function CompareGamesModal() {
   }
 
   const onGameChoose = (gameId: number) => {
-    if (gamesToCompare![0].id === gameId) {
+    if (itemsToCompare![0].id === gameId) {
       setWinnerLoserChoice(["win", "lose"]);
     } else {
       setWinnerLoserChoice(["lose", "win"]);
@@ -71,12 +71,12 @@ export function CompareGamesModal() {
   };
 
   const progressCompleted =
-    maxGamesToCompare - numOfComparisonsMade <= 1 && gamesToCompare === null;
+    maxItemsToCompare - numOfComparisonsMade <= 1 && itemsToCompare === null;
 
   const progressPercentage = progressCompleted
     ? 100
     : Math.min(
-        Math.max((numOfComparisonsMade / maxGamesToCompare) * 100, 3),
+        Math.max((numOfComparisonsMade / maxItemsToCompare) * 100, 3),
         98
       );
 
@@ -138,13 +138,13 @@ export function CompareGamesModal() {
               ></motion.div>
             </div>
 
-            {gamesToCompare && (
+            {itemsToCompare && (
               <div
                 key={gamesToCompareKey}
                 className="flex gap-4 flex-wrap justify-around items-center"
               >
                 <motion.button
-                  onClick={() => onGameChoose(gamesToCompare[0].id)}
+                  onClick={() => onGameChoose(itemsToCompare[0].id)}
                   className="w-40 space-y-4 group"
                   variants={variants}
                   initial="hideInitial"
@@ -158,17 +158,17 @@ export function CompareGamesModal() {
                   onAnimationComplete={onAnimationComplete}
                 >
                   <img
-                    src={gamesToCompare[0].cover?.url}
+                    src={itemsToCompare[0].image ?? ""}
                     className="object-cover w-full group-hover:hover:scale-110 group-active:scale-95 transition-transform"
-                    alt={gamesToCompare[0].name}
+                    alt={itemsToCompare[0].name}
                   />
-                  <span className="inline-block">{gamesToCompare[0].name}</span>
+                  <span className="inline-block">{itemsToCompare[0].name}</span>
                 </motion.button>
                 <span className="text-3xl font-bold italic max-md:w-full">
                   VS
                 </span>
                 <motion.button
-                  onClick={() => onGameChoose(gamesToCompare[1].id)}
+                  onClick={() => onGameChoose(itemsToCompare[1].id)}
                   className="w-40 space-y-4 group"
                   variants={variants}
                   initial="hideInitial"
@@ -181,11 +181,11 @@ export function CompareGamesModal() {
                   }
                 >
                   <img
-                    src={gamesToCompare[1].cover?.url}
+                    src={itemsToCompare[1].image ?? ""}
                     className="object-cover w-full group-hover:hover:scale-110 group-active:scale-95 transition-transform"
-                    alt={gamesToCompare[1].name}
+                    alt={itemsToCompare[1].name}
                   />
-                  <span className="inline-block">{gamesToCompare[1].name}</span>
+                  <span className="inline-block">{itemsToCompare[1].name}</span>
                 </motion.button>
               </div>
             )}

@@ -10,15 +10,17 @@ type Route =
       type: "all-lists";
     };
 
-export const createRoute = (route: Route) => {
+type Section = "games" | "movies" | "books";
+
+export const createRoute = (route: Route, section: Section) => {
   if (route.type === "homepage") {
-    return "/";
+    return `/${section ?? ""}`;
   }
   if (route.type === "list") {
-    return `/list/${route.slug}`;
+    return `/${section}/list/${route.slug}`;
   }
   if (route.type === "all-lists") {
-    return "/lists";
+    return `/${section}/lists`;
   }
 
   throw new Error("Invalid route");

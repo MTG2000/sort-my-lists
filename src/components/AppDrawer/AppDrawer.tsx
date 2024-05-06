@@ -9,12 +9,14 @@ import { Button, LinkButton } from "../Button/Button";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useToast } from "@/lib/hooks/useToast";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
+import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 
 export default function AppDrawer() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
   const { lists, createNewList, deleteList } = useListsManager();
+  const { section } = useSectionApis();
 
   const handleCreateNewList = () => {
     const list = createNewList(`Untitled List ${lists.length + 1}`);
@@ -141,7 +143,7 @@ export default function AppDrawer() {
           }}
         >
           <Link
-            to={createRoute({ type: "homepage" })}
+            to={createRoute({ type: "homepage" }, section)}
             onClick={closeMenu}
             className="text-5xl font-bold hover:scale-105 transition-transform"
           >
@@ -154,7 +156,7 @@ export default function AppDrawer() {
               {lists.map((list) => (
                 <li key={list.id} className="flex gap-2">
                   <LinkButton
-                    to={createRoute({ type: "list", slug: list.slug })}
+                    to={createRoute({ type: "list", slug: list.slug }, section)}
                     onClick={closeMenu}
                     variant="whiteOutlined"
                     className="overflow-clip text-ellipsis block py-2 grow"

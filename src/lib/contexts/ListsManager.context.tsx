@@ -2,6 +2,7 @@ import { ReactNode, createContext, useCallback, useContext } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import { List } from "@/core/models/list";
 import { generateRandomId, toSlug } from "../utils/helperFunctions";
+import { useSectionApis } from "./SectionApisConfig.context";
 
 interface ListsManagerContextValue {
   lists: List[];
@@ -19,7 +20,9 @@ const ListsManagerContext = createContext<ListsManagerContextValue | undefined>(
 export const ListsManagerProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const [lists, setLists] = useLocalStorageState<List[]>("lists", {
+  const { section } = useSectionApis();
+
+  const [lists, setLists] = useLocalStorageState<List[]>(`${section}:lists`, {
     defaultValue: [],
   });
 

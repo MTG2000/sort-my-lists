@@ -2,14 +2,19 @@ import { Button } from "@/components/Button/Button";
 import FAQ from "@/components/FAQ/FAQ";
 import HeroTitle from "@/components/HeroTitle/HeroTitle";
 import { useListsManager } from "@/lib/contexts/ListsManager.context";
+import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 import { useNavigate } from "@/lib/hooks/useNavigate";
 import { useDocumentTitle } from "usehooks-ts";
 
 export default function HomePage() {
+  const { section } = useSectionApis();
+
+  const sectionCapitalized = section.charAt(0).toUpperCase() + section.slice(1);
+
   const { lists, createNewList } = useListsManager();
   const navigate = useNavigate();
 
-  useDocumentTitle("SortMyGames");
+  useDocumentTitle(`SortMy${sectionCapitalized}`);
 
   const handleCreateNewList = () => {
     const list = createNewList(`Untitled List ${lists.length + 1}`);
@@ -27,12 +32,12 @@ export default function HomePage() {
       >
         <HeroTitle />
         <p className="text-2xl max-w-[60ch] leading-9">
-          Confused where to put a new game in your ever-growing backlog?
+          Confused where to put a new item in your ever-growing backlog?
           <br />
           Instead of guesswor, use <span className="italic">
-            SortMyGames
+            SortMyItems
           </span>{" "}
-          to find the perfect spot to put a game even amid 1000-long list, by
+          to find the perfect spot to put an item even amid 1000-long list, by
           answering less that 10 comparisons!
         </p>
 

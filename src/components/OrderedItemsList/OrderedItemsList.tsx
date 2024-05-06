@@ -1,39 +1,39 @@
-import { Game } from "@/core/models";
-import { useGamesList } from "@/lib/contexts/GamesList.context";
+import { Item } from "@/core/models";
+import { useItemsList } from "@/lib/contexts/ItemsList.context";
 import { AnimatePresence, Reorder, useDragControls } from "framer-motion";
 
-export default function OrderedGamesList() {
-  const { games, setNewGamesOrder } = useGamesList();
+export default function OrderedItemsList() {
+  const { items, setNewItemsOrder } = useItemsList();
 
-  const onReorder = (newOrder: Game[]) => {
-    setNewGamesOrder(newOrder);
+  const onReorder = (newOrder: Item[]) => {
+    setNewItemsOrder(newOrder);
   };
 
   return (
     <Reorder.Group
-      values={games}
+      values={items}
       axis="y"
       onReorder={onReorder}
       layoutScroll
       className="flex flex-col gap-3"
     >
       <AnimatePresence>
-        {games.map((game, idx) => (
-          <GameItem key={game.id} game={game} idx={idx} />
+        {items.map((item, idx) => (
+          <ItemCard key={item.id} item={item} idx={idx} />
         ))}
       </AnimatePresence>
     </Reorder.Group>
   );
 }
 
-const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
-  const { shiftGameToNewIndex, removeGame } = useGamesList();
+const ItemCard = ({ item, idx }: { item: Item; idx: number }) => {
+  const { shiftItemToNewIndex, removeItem } = useItemsList();
   const dragControls = useDragControls();
 
   return (
     <Reorder.Item
-      key={game.id}
-      value={game}
+      key={item.id}
+      value={item}
       dragControls={dragControls}
       dragListener={false}
       initial={{ opacity: 0 }}
@@ -45,7 +45,7 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
         <div>
           <button
             className="block mx-auto hover:scale-110 active:scale-90 cursor-grab active:cursor-grabbing touch-none"
-            aria-label="Drag to move game"
+            aria-label="Drag to move item"
             onPointerDown={(e) => dragControls.start(e)}
           >
             <svg
@@ -69,34 +69,34 @@ const GameItem = ({ game, idx }: { game: Game; idx: number }) => {
             defaultValue={idx + 1}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                shiftGameToNewIndex(game, parseInt(e.currentTarget.value) - 1);
+                shiftItemToNewIndex(item, parseInt(e.currentTarget.value) - 1);
               }
             }}
             className="w-[36px] text-center bg-transparent hover:bg-gray-900 focus:bg-gray-900 rounded-sm border-none text-lg font-bold"
           />
         </div>
       </div>
-      <div key={game.id} className="flex max-sm:flex-col grow gap-4">
+      <div key={item.id} className="flex max-sm:flex-col grow gap-4">
         <img
-          src={game.cover?.url}
+          src={item.image ?? ""}
           alt=""
           width={120}
           className="object-cover mx-auto"
         />
         <div className="grow">
-          <h3 className="font-bold text-2xl max-md:text-center">{game.name}</h3>
-          {game.summary && (
+          <h3 className="font-bold text-2xl max-md:text-center">{item.name}</h3>
+          {item.summary && (
             <p className="line-clamp-2 max-md:hidden max-w-[70ch] mt-3">
-              {game.summary}
+              {item.summary}
             </p>
           )}
         </div>
       </div>
       <div>
         <button
-          onClick={() => removeGame(game)}
+          onClick={() => removeItem(item)}
           className="text-gray-500 p-3 rounded-full hover:text-gray-100"
-          aria-label="remove game"
+          aria-label="remove item"
         >
           <svg
             width="20px"

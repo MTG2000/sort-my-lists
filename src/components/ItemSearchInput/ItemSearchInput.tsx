@@ -1,22 +1,28 @@
-import { useContext, useRef } from "react";
-import { Game } from "@/core/models";
+import { useContext, useMemo, useRef } from "react";
+import { Item } from "@/core/models";
 import { withProviders } from "@/lib/utils/hoc";
-import API from "@/services/api";
 import { MenuProps } from "react-select";
 import { components, OptionProps } from "react-select";
 import AsyncSelect from "react-select/async";
 import {
-  GameInsertPosition,
-  GameInsertPositionProvider,
-} from "./game-insert-position-context";
-import { useGamesList } from "@/lib/contexts/GamesList.context";
+  ItemInsertPosition,
+  ItemInsertPositionProvider,
+} from "./item-insert-position-context";
+import { useItemsList } from "@/lib/contexts/ItemsList.context";
 import useFocusWithin from "@/lib/hooks/useFocusWithin";
 import debounce from "debounce";
+import { useSectionApis } from "@/lib/contexts/SectionApisConfig.context";
 
-function GameSearchInputBase() {
-  const { position } = useContext(GameInsertPosition)!;
-  const { addGame } = useGamesList();
+function ItemSearchInputBase() {
+  const { section, fetchSearchResults } = useSectionApis();
+  const { position } = useContext(ItemInsertPosition)!;
+  const { addItem } = useItemsList();
   const ref = useRef<HTMLDivElement | null>(null);
+
+  const debouncedFetchOptions = useMemo(
+    () => debounce(fetchSearchResults, 300),
+    [fetchSearchResults]
+  );
 
   const isFocusedWithin = useFocusWithin(ref);
 
@@ -25,16 +31,16 @@ function GameSearchInputBase() {
       <AsyncSelect
         value={null}
         className="w-full"
-        placeholder="Start typing to search for games..."
+        placeholder={`Start typing to search for ${section}...`}
         menuIsOpen={isFocusedWithin}
         cacheOptions={true}
         defaultOptions
-        loadOptions={fetchOptions}
+        loadOptions={debouncedFetchOptions}
         components={{
           Option,
           Menu,
         }}
-        onChange={(v) => addGame(v as Game, position)}
+        onChange={(v) => addItem(v as Item, position)}
         styles={{
           menu: () => ({
             backgroundColor: "black",
@@ -51,34 +57,12 @@ function GameSearchInputBase() {
   );
 }
 
-export const GameSearchInput = withProviders(GameInsertPositionProvider)(
-  GameSearchInputBase
+export const ItemSearchInput = withProviders(ItemInsertPositionProvider)(
+  ItemSearchInputBase
 );
 
-const fetchOptions = debounce(
-  (inputValue: string, callback: (result: Game[]) => void) => {
-    // try {
-    //   const data = await API.gamesApi.searchGames(inputValue);
-    //   return data;
-    // } catch (error) {
-    //   console.log("ERRORED");
-    //   console.log(error);
-    //   return [];
-    // }
-    API.gamesApi
-      .searchGames(inputValue)
-      .then(callback)
-      .catch((error) => {
-        console.log("Error in fetching from API");
-        console.log(error);
-        callback([]);
-      });
-  },
-  300
-);
-
-const Menu = (props: MenuProps<Game>) => {
-  const { position, onUpdateInsertPosition } = useContext(GameInsertPosition)!;
+const Menu = (props: MenuProps<Item>) => {
+  const { position, onUpdateInsertPosition } = useContext(ItemInsertPosition)!;
 
   return (
     <components.Menu {...props}>
@@ -125,7 +109,7 @@ const Menu = (props: MenuProps<Game>) => {
   );
 };
 
-const Option = (props: OptionProps<Game>) => {
+const Option = (props: OptionProps<Item>) => {
   return (
     <components.Option
       {...props}
@@ -135,7 +119,7 @@ const Option = (props: OptionProps<Game>) => {
     >
       <div className="flex gap-4">
         <img
-          src={props.data.cover?.url}
+          src={props.data.image ?? ""}
           alt=""
           width={42}
           className="object-cover"
