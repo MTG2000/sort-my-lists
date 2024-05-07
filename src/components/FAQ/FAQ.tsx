@@ -100,17 +100,17 @@ const faqs = [
     question:
       "How does SortMy{Items} differ from other {item}-listing websites?",
     answer:
-      "Unlike most {item} listing websites that leave you in a pickle when adding new items to a lengthy list, SortMy{Items} uses a smart algorithm to find the perfect nook for your {item}. Even if your list is swelling with 1000 items, our app is smart enough to ask you just 10 questions to find the right place for the newcomer. So, no more scratching your head over where to place the new {item}.",
+      "Unlike most {items} listing websites that leave you in a pickle when adding new items to a lengthy list, SortMy{Items} uses a smart algorithm to find the perfect place for your {item}. Even if your list has over 1000 items, the app is smart enough to ask you just 10 questions to find the right place for the {item}.",
   },
   {
     question: "Can you tell me more about this smart algorithm?",
     answer:
-      "For those with a tech itch, here it is: SortMy{Items} uses AVL trees at its core. These are a type of self-balancing binary search trees that helps us reduce the search area by half with each user response. Just like magic, but with a pinch of tech!",
+      "For those with a tech itch, here it is: SortMyLists uses AVL trees at its core. These are a type of self-balancing binary search trees that helps us reduce the search area by half with each user response. You can find plenty of resources about them online.",
   },
   {
     question: "What's the story behind SortMy{Items}?",
     answer:
-      "SortMy{Items} started as a personal project out of frustration with having a massive items list and nowhere sensible to put new entries. After showing it to some friends who loved it, I polished and refined the concept, and decided to share it with all of you since it seemed to be a common pain!",
+      "SortMy{Items} started as a personal project out of frustration with having a massive {items} list and having a lot of difficulty keeping them in a meaningful order. I showed it to a couple of friends & they loved it, so I polished and refined the concept, and decided to share it with everyone since it seems to be a common pain!",
   },
   {
     question: "Can I rearrange the order of my items manually?",
@@ -130,12 +130,12 @@ const faqs = [
   {
     question: "Where is my {items} list data stored?",
     answer:
-      "Everything's stored locally on your browser – we don't store anything remotely. So we highly recommend backing up your data regularly. You can do this easily via our simple 'Export Data to a Backup File' feature.",
+      "Everything's stored locally on your browser – we don't store anything remotely. So we highly recommend backing up your data regularly. You can do this easily via our simple 'Export Data to a Backup File' button in the sidebar",
   },
   {
-    question: "Where does the items data come from?",
+    question: "Where does the games/movies/books data come from?",
     answer:
-      "All {items} data is fetched from the igdb.com API. So, if you spot something missing or incorrect, head over there to make updates.",
+      "The data is fetched from igdb.com/omdbapi/google-books-api respectively. So if you find anything missing, go there & update it.",
   },
   {
     question: "Is SortMy{Items} free?",
@@ -143,7 +143,7 @@ const faqs = [
       <>
         Absolutely! Keep your wallet tucked away. It is 100% free, and always
         will be. But if you fancy sending a more tangible 'Thank You' note my
-        way, you can do so here:{" "}
+        way (which is of course appreciated!), you can do so here:{" "}
         <a
           href="https://buymeacoffee.com/mohammed_taher_ghazal"
           target="_blank"
