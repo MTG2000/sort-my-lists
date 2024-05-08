@@ -16,7 +16,7 @@ export async function sharedListPageLoader({ request }: LoaderFunctionArgs) {
   );
 
   return {
-    games: sortedGames,
+    items: sortedGames,
     title: listTitleParam,
   };
 }

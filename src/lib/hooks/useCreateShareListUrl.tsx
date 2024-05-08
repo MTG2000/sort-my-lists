@@ -9,11 +9,11 @@ export const useCreateShareListUrl = (listTitle?: string) => {
   const createShareUrl = useCallback(() => {
     const idsList = items.map((item) => item.id);
     const encodedItems = encodeURIComponent(JSON.stringify(idsList));
-    const title = listTitle ? `&title=${listTitle}` : "";
+    const title = listTitle ? `&title=${encodeURIComponent(listTitle)}` : "";
 
     // const sharingURL = `${window.location.origin}/shared?games=${encoded}`;
 
-    return `${window.location.origin}/shared?${section}=${encodedItems}${title}`;
+    return `${window.location.origin}/${section}/shared?${section}=${encodedItems}${title}`;
   }, [items, listTitle, section]);
 
   return createShareUrl;

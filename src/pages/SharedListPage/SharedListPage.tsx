@@ -1,11 +1,11 @@
-import { Game } from "@/core/models";
+import { Item } from "@/core/models";
 import { useLoaderData } from "react-router-dom";
 import { useDocumentTitle } from "usehooks-ts";
 
 export default function SharedListPage() {
-  const loaderData = useLoaderData() as { games: Game[]; title: string | null };
+  const loaderData = useLoaderData() as { items: Item[]; title: string | null };
 
-  if (!loaderData.games) throw new Error("Games not found");
+  if (!loaderData.items) throw new Error("Items not found");
 
   useDocumentTitle(loaderData.title ? loaderData.title : "Shared List");
 
@@ -18,8 +18,8 @@ export default function SharedListPage() {
           </h1>
         )}
         <ul className="flex flex-col gap-3">
-          {loaderData.games.map((game, idx) => (
-            <li key={game.id} className="flex gap-4 glass-card p-4 rounded-2xl">
+          {loaderData.items.map((item, idx) => (
+            <li key={item.id} className="flex gap-4 glass-card p-4 rounded-2xl">
               <div className="flex flex-col justify-around">
                 <div>
                   <span className="w-[36px] text-center bg-gray-900 bg-opacity-90 inline-block rounded-sm border-none text-lg font-bold">
@@ -27,18 +27,18 @@ export default function SharedListPage() {
                   </span>
                 </div>
               </div>
-              <div key={game.id} className="flex max-sm:flex-col grow gap-4">
+              <div key={item.id} className="flex max-sm:flex-col grow gap-4">
                 <img
-                  src={game.cover?.url}
+                  src={item.image ?? ""}
                   alt=""
                   width={120}
                   className="object-cover mx-auto"
                 />
                 <div className="grow">
-                  <h3 className="font-bold text-2xl">{game.name}</h3>
-                  {game.summary && (
+                  <h3 className="font-bold text-2xl">{item.name}</h3>
+                  {item.summary && (
                     <p className="line-clamp-2 max-w-[70ch] mt-3">
-                      {game.summary}
+                      {item.summary}
                     </p>
                   )}
                 </div>
