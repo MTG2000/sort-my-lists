@@ -1,5 +1,6 @@
 import { CompareItemsModal } from "@/components/CompareItemsModal/CompareItemsModal";
 import { ItemSearchInput } from "@/components/ItemSearchInput/ItemSearchInput";
+import ListNotFound from "@/components/ListNotFound/ListNotFound";
 import ListTitleInput from "@/components/ListTitleInput/ListTitleInput";
 import OrderedItemsList from "@/components/OrderedItemsList/OrderedItemsList";
 import ShareListButton from "@/components/ShareListButton/ShareListButton";
@@ -27,9 +28,9 @@ export default function ListPage() {
   const { lists, updateList } = useListsManager();
   const list = lists.find((list) => list.slug === listSlug);
 
-  if (!list) throw new Error("List not found");
+  useDocumentTitle(list?.name ?? "List Not Found");
 
-  useDocumentTitle(list.name);
+  if (!list) return <ListNotFound />;
 
   const handleUpdateListName = (name: string) => {
     try {
