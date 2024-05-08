@@ -1,4 +1,5 @@
 import { Item } from "@/core/models";
+import { cn } from "@/lib/utils/helperFunctions";
 import { useLoaderData } from "react-router-dom";
 import { useDocumentTitle } from "usehooks-ts";
 
@@ -34,7 +35,7 @@ export default function SharedListPage() {
                   width={120}
                   className="object-cover mx-auto"
                 />
-                <div className="grow">
+                <div className={cn("grow", !item.summary && "self-center")}>
                   <h3 className="font-bold text-2xl">{item.name}</h3>
                   {item.summary && (
                     <p className="line-clamp-2 max-w-[70ch] mt-3">

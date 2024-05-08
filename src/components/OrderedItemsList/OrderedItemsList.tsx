@@ -1,5 +1,6 @@
 import { Item } from "@/core/models";
 import { useItemsList } from "@/lib/contexts/ItemsList.context";
+import { cn } from "@/lib/utils/helperFunctions";
 import { AnimatePresence, Reorder, useDragControls } from "framer-motion";
 
 export default function OrderedItemsList() {
@@ -83,7 +84,7 @@ const ItemCard = ({ item, idx }: { item: Item; idx: number }) => {
           width={120}
           className="object-cover mx-auto"
         />
-        <div className="grow self-center">
+        <div className={cn("grow", !item.summary && "self-center")}>
           <h3 className="font-bold text-2xl max-md:text-center">{item.name}</h3>
           {item.summary && (
             <p className="line-clamp-2 max-md:hidden max-w-[70ch] mt-3">
